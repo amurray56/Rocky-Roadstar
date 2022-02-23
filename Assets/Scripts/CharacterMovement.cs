@@ -10,6 +10,8 @@ public class CharacterMovement : MonoBehaviour
     //Components
     CharacterController cc;
     Animator anim;
+    public GameObject focalPoint;
+    private Transform focalPointTransform;
 
     Vector3 movementDirection;
 
@@ -18,6 +20,7 @@ public class CharacterMovement : MonoBehaviour
     {
         cc = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
+        focalPointTransform = focalPoint.GetComponent<Transform>();
     }
 
     // Update is called once per frame
@@ -26,7 +29,7 @@ public class CharacterMovement : MonoBehaviour
         var h = Input.GetAxis("Horizontal");
         var v = Input.GetAxis("Vertical");
 
-        if(h != 0 || v != 0)
+        if (h != 0 || v != 0)
         {
             movementDirection.Set(h, 0, v);
             cc.Move(movementDirection * speedMultiplier * Time.deltaTime);
@@ -36,6 +39,8 @@ public class CharacterMovement : MonoBehaviour
         {
             anim.SetBool("HasInput", false);
         }
+
+        transform.LookAt(focalPointTransform);
 
         var desiredDirection = Quaternion.LookRotation(movementDirection);
         transform.rotation = Quaternion.Lerp(transform.rotation, desiredDirection, rotatationSpeed);
