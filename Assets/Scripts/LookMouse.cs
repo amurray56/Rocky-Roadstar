@@ -32,7 +32,7 @@ public class LookMouse : MonoBehaviour
 
 	float rotationY = 0F;
 
-	void Update()
+    void Update()
 	{
 		//Press escape to apply no locking to the Cursor
 		//if(Input.GetKey(KeyCode.Escape))

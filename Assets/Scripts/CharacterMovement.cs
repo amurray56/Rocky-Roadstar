@@ -50,21 +50,36 @@ public class CharacterMovement : MonoBehaviour
 
     void Move()
     {
-        float horizontalMove = Input.GetAxis("Horizontal");
-        float verticalMove = Input.GetAxis("Vertical");
-
-        Vector3 move = transform.forward * verticalMove + transform.right * horizontalMove;
-        
-        if(verticalMove != 0 || horizontalMove != 0)
+        if (Input.GetKey(KeyCode.A))
         {
-            movementDirection.Set(horizontalMove, 0, verticalMove);
+            movementDirection.Set(-1, 0, 0);
+            cc.Move(movementDirection * speedMultiplier * Time.deltaTime);
             anim.SetBool("HasInput", true);
-            cc.Move(speedMultiplier * Time.deltaTime * move);
         }
-        else
+        // Move forward
+        if (Input.GetKey(KeyCode.W))
         {
-            anim.SetBool("HasInput", false);
+            movementDirection.Set(0, 0, 1);
+            cc.Move(movementDirection * speedMultiplier * Time.deltaTime);
+            anim.SetBool("HasInput", true);
         }
+        // Move backward
+        if (Input.GetKey(KeyCode.S))
+        {
+            movementDirection.Set(0, 0, -1);
+            cc.Move(movementDirection * speedMultiplier * Time.deltaTime);
+            anim.SetBool("HasInput", true);
+        }
+        // Strafe right     
+        if (Input.GetKey(KeyCode.D))
+        {
+            movementDirection.Set(1, 0, 0);
+            cc.Move(movementDirection * speedMultiplier * Time.deltaTime);
+            anim.SetBool("HasInput", true);
+        }
+
+        var desiredDirection = Quaternion.LookRotation(movementDirection);
+        transform.rotation = Quaternion.Lerp(transform.rotation, desiredDirection, rotatationSpeed);
 
         var animationVector = transform.InverseTransformDirection(cc.velocity);
 
