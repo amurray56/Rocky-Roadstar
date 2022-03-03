@@ -24,7 +24,7 @@ public class CharacterMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         groundedPlayer = cc.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
@@ -39,7 +39,7 @@ public class CharacterMovement : MonoBehaviour
 
     public void ProcessGravity()
     {
-        if(Input.GetButtonDown("Jump") && !anim.GetBool("Jumping"))
+        if(Input.GetKey(KeyCode.Space) && !anim.GetBool("Jumping"))
         {
             anim.SetBool("Jumping", true);
             playerVelocity.y += Mathf.Sqrt(jumpForce * -3.0f * gravityForce);
@@ -50,32 +50,53 @@ public class CharacterMovement : MonoBehaviour
 
     void Move()
     {
+
         if (Input.GetKey(KeyCode.A))
         {
             movementDirection.Set(-1, 0, 0);
             cc.Move(movementDirection * speedMultiplier * Time.deltaTime);
             anim.SetBool("HasInput", true);
+            transform.LookAt(movementDirection);
         }
-        // Move forward
+        else
+        {
+            anim.SetBool("HasInput", false);
+        }
+
         if (Input.GetKey(KeyCode.W))
         {
             movementDirection.Set(0, 0, 1);
             cc.Move(movementDirection * speedMultiplier * Time.deltaTime);
             anim.SetBool("HasInput", true);
+            transform.LookAt(movementDirection);
         }
-        // Move backward
+        else
+        {
+            anim.SetBool("HasInput", false);
+        }
+
         if (Input.GetKey(KeyCode.S))
         {
             movementDirection.Set(0, 0, -1);
             cc.Move(movementDirection * speedMultiplier * Time.deltaTime);
             anim.SetBool("HasInput", true);
+            transform.LookAt(movementDirection);
         }
-        // Strafe right     
+        else
+        {
+            anim.SetBool("HasInput", false);
+        }
+
         if (Input.GetKey(KeyCode.D))
         {
             movementDirection.Set(1, 0, 0);
             cc.Move(movementDirection * speedMultiplier * Time.deltaTime);
             anim.SetBool("HasInput", true);
+            transform.LookAt(movementDirection);
+        }
+        else
+        {
+            anim.SetBool("HasInput", false);
         }
 
         var desiredDirection = Quaternion.LookRotation(movementDirection);
