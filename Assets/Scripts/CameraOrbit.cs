@@ -4,51 +4,49 @@ using UnityEngine;
 
 public class CameraOrbit : MonoBehaviour
 {
-    public Transform player;
-    public float turnSpeed = 0.4f;
-    public float height;
-    public float distance;
+    public Camera cam;
+    public Transform target;
+    public float distanceToTarget = 5;
+    public float cameraSmoothing = 1;
 
-    private Vector3 offsetX;
-    private Vector3 offsetY;
+    private Vector3 previousPosition;
 
 
-    [AddComponentMenu("Camera-Control/Mouse Look")]
-
-    public float sensitivityX = 15F;
-    public float sensitivityY = 15F;
-
-    public float minimumX = -360F;
-    public float maximumX = 360F;
-
-    public float minimumY = -60F;
-    public float maximumY = 60F;
-
-    float rotationY = 0F;
-    float rotationX = 0F;
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        offsetX = new Vector3(0, 0.3f, -5);
+
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        transform.LookAt(player.position);
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButtonDown(1))
         {
-            offsetX = Quaternion.AngleAxis(Input.GetAxis("Mouse X") * turnSpeed, Vector3.up) * offsetX;
-            offsetY = Quaternion.AngleAxis(Input.GetAxis("Mouse Y") * turnSpeed, Vector3.right) * offsetY;
-            //transform.position = player.position + offsetX;
+            previousPosition = cam.ScreenToViewportPoint(Input.mousePosition);
+        }
+        else if (Input.GetMouseButton(1))
+        {
+            Vector3 newPosition = cam.ScreenToViewportPoint(Input.mousePosition);
+            Vector3 direction = previousPosition - newPosition;
 
-            rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
-            rotationY = Mathf.Clamp(rotationY, minimumY, maximumY);
-            rotationX += Input.GetAxis("Mouse X") * sensitivityX;
-            rotationX = Mathf.Clamp(rotationX, minimumX, maximumX);
+            float rotationAroundYAxis = -direction.x * 180; // camera moves horizontally
+            float rotationAroundXAxis = direction.y * 180; // camera moves vertically
 
-            transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
+            cam.transform.position = target.position;
+
+            cam.transform.Rotate(new Vector3(1, 0, 0), rotationAroundXAxis);
+            cam.transform.Rotate(new Vector3(0, 1, 0), rotationAroundYAxis, Space.World); // <— This is what makes it work!
+
+            cam.transform.Translate(new Vector3(0, 2, -distanceToTarget));
+
+            previousPosition = newPosition;
+        }
+        else
+        {
+            Vector3 originalPosition = new Vector3 (0, 2, -5);
+            Quaternion desiredRotation = Quaternion.Euler(0, 0, 0);
+
+            cam.transform.localRotation = Quaternion.Lerp(transform.localRotation, desiredRotation, Time.deltaTime * cameraSmoothing);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, originalPosition, Time.deltaTime * cameraSmoothing);
         }
     }
 }

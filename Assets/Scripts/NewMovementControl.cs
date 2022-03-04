@@ -6,17 +6,9 @@ using UnityEngine.InputSystem;
 public class NewMovementControl : MonoBehaviour
 {
     private Rigidbody rb;
-    private float movementX;
-    private float movementY;
     public float speed = 1;
-
-    bool isGrounded;
-
-    public float rotationSpeed = 1;
-
+    private bool isGrounded;
     private Animator anim;
-
-    Vector3 playerVelocity;
     public float jumpForce = 1;
 
     // Start is called before the first frame update
@@ -26,40 +18,59 @@ public class NewMovementControl : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
-    private void OnMove(InputValue movementValue)
-    {
-        Vector2 movementVector = movementValue.Get<Vector2>();
-
-        movementX = movementVector.x;
-        movementY = movementVector.y;
-    }
-
     // Update is called once per frame
     void FixedUpdate()
     {
-        rb.velocity = new Vector3(0 * speed, rb.velocity.y, movementY * speed);
-
-        if(rb.velocity.z > 0 || rb.velocity.x > 0 || rb.velocity.z < 0 || rb.velocity.x < 0)
+        if (Input.GetKey(KeyCode.W))
         {
+            transform.position += speed * transform.forward * Time.deltaTime;
             anim.SetBool("HasInput", true);
-        }
-        else
-        {
-            anim.SetBool("HasInput", false);
+            anim.SetFloat("ForwardMomentum", 1);
         }
 
-        if (Input.GetKey(KeyCode.Space) && !anim.GetBool("Jumping"))
+        if(Input.GetKey(KeyCode.S))
+        {
+            transform.position -= speed * transform.forward * Time.deltaTime;
+            anim.SetBool("HasInput", true);
+            anim.SetFloat("ForwardMomentum", -1);
+        }
+
+        if (Input.GetKey(KeyCode.Space) && !anim.GetBool("Jumping") && isGrounded)
         {
             anim.SetBool("Jumping", true);
-            rb.velocity = new Vector3(movementX * speed, jumpForce * speed, movementY * speed);
+            rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
             isGrounded = false;
         }
 
         if (Input.GetKey(KeyCode.A))
+        {
+            anim.SetBool("HasInput", true);
             transform.Rotate(-Vector3.up * 100 * Time.deltaTime);
+            anim.SetFloat("SideMomentum", -1);
+        }
 
         if (Input.GetKey(KeyCode.D))
+        {
+            anim.SetBool("HasInput", true);
             transform.Rotate(Vector3.up * 100 * Time.deltaTime);
+            anim.SetFloat("SideMomentum", 1);
+
+        }
+
+        if(!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
+        {
+            anim.SetBool("HasInput", false);
+        }
+
+        if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
+        {
+            anim.SetFloat("ForwardMomentum", 0);
+        }
+
+        if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
+        {
+            anim.SetFloat("SideMomentum", 0);
+        }
     }
 
     private void OnTriggerStay(Collider other)
