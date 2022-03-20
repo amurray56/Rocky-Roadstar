@@ -27,9 +27,11 @@ public class EnemyMovement : MonoBehaviour
     //Waypoints
     public float enemyWaypointSpeed = 3f;
     public float enemyWaypointStoppingDistance = 2f;
-    private int wayPointIndex = 0; //Stores the waypoint key that the enemy will move towards.
+    private int wayPointIndex; //Stores the waypoint key that the enemy will move towards.
     [HideInInspector]
-    public List<Transform> waypoints = new List<Transform>();
+    public List<Transform> waypoints = new List<Transform>(); //List info parsed from SpawnerManager Script
+
+    private RaycastHit hit;
 
     private void Awake()
     {
@@ -163,7 +165,11 @@ public class EnemyMovement : MonoBehaviour
         }
         else
         {
+            GameObject waypoint = GameObject.FindGameObjectWithTag("Waypoint");
+            
             NavMeshAgentSettings(waypoints[wayPointIndex].position, enemyWaypointSpeed, enemyWaypointStoppingDistance);
+            //NavMeshAgent.SetPath(waypoints[wayPointIndex].position);
+            
         }
     }
 }

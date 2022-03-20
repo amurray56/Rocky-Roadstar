@@ -1789,18 +1789,18 @@ NavMeshAgent:
   m_GameObject: {fileID: 4493914613880827488}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 1
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 3
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: -0.1
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 1
   m_ObstacleAvoidanceType: 4
 --- !u!114 &466652985
 MonoBehaviour:
@@ -1836,9 +1836,14 @@ MonoBehaviour:
   enemyStoppingDistance: 1
   enemyTarget: {fileID: 0}
   fallDistanceBeforeDeath: -10
-  enemyWaypointSpeed: 3
+  enemyWaypointSpeed: 1
   enemyWaypointStoppingDistance: 1
-  waypoints: []
+  waypoints:
+  - {fileID: 2988976419650010954, guid: a478663555ce194468a1e68e4e3bad90, type: 3}
+  - {fileID: 8614783365874543240, guid: 4bfc2e116910f334db19294203fd194b, type: 3}
+  - {fileID: 5137982143061893638, guid: 3d64b7a79c524ca44b5ddc43e7b34389, type: 3}
+  - {fileID: 5137982143061893638, guid: 3d64b7a79c524ca44b5ddc43e7b34389, type: 3}
+  - {fileID: 3298795006205172728, guid: 5b17ea8a0245a144cbd8686ffe92e2ca, type: 3}
 --- !u!114 &466652987
 MonoBehaviour:
   m_ObjectHideFlags: 0
