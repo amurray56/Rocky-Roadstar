@@ -16,7 +16,7 @@ public class HUDManager : MonoBehaviour
     public Text HUDLives;
     public Text HUDCrystals;
     public Slider HUDHealthSlider; //Allos access to GUI health slider
-    public Text HUDEnemiesKilled;
+    //public Text HUDEnemiesKilled;
 
     public void Awake()
     {
@@ -72,7 +72,7 @@ public class HUDManager : MonoBehaviour
         HUDLives.text = GameController.gameController.numberOfLivesLeft.ToString();
         HUDCrystals.text = GameController.gameController.crystals.ToString();
         HUDHealthSlider.value = PlayerHealth.playerHealthAmount;
-        HUDEnemiesKilled.text = GameController.gameController.totalEnemiesKilled.ToString();
+        //HUDEnemiesKilled.text = GameController.gameController.totalEnemiesKilled.ToString();
         //playerHealth is a static variable so we can access it from the script name and then the variable
     }
 

@@ -9,7 +9,8 @@ public class GameController : MonoBehaviour
     public static GameController gameController;
 
     //Setup
-    public HUDManager hudManager;
+    public HUDManager hudManagerP1;
+    public HUDManager hudManagerP2;
 
     //Settings
     public int numberOfLivesLeft;
@@ -42,12 +43,23 @@ public class GameController : MonoBehaviour
         }
         Debug.Log("OnSceneLoaded: " + scene.name);
         Debug.Log(mode);
-        if (GameObject.Find("HUD"))
+        Invoke("FindHUD", .5f);
+        Invoke("UpdateHUDManager", .6f);
+    }
+
+    private void FindHUD()
+    {
+        if (GameObject.Find("HUDP1") && GameObject.Find("HUDP2"))
         {
-            hudManager = GameObject.Find("HUD").GetComponent<HUDManager>();
+            hudManagerP1 = GameObject.Find("HUDP1").GetComponent<HUDManager>();
+            hudManagerP2 = GameObject.Find("HUDP2").GetComponent<HUDManager>();
             UpdateHUDManager();
         }
-        Invoke("UpdateHUDManager", 1f);
+        else
+        {
+            hudManagerP1 = GameObject.Find("HUDP1").GetComponent<HUDManager>();
+            UpdateHUDManager();
+        }
     }
     private void Awake()
     {
@@ -60,6 +72,8 @@ public class GameController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        
     }
     void Start()
     {
@@ -75,7 +89,11 @@ public class GameController : MonoBehaviour
     }
     public void UpdateHUDManager()
     {
-        hudManager.UpdateHUD();
+        if(GameObject.Find("HUDP1"))
+        hudManagerP1.UpdateHUD();
+
+        if(GameObject.Find("HUDP2"))
+        hudManagerP2.UpdateHUD();
     }
     void PauseTheGame()
     {
@@ -83,11 +101,13 @@ public class GameController : MonoBehaviour
     }
     public void GameOver()
     {
-        hudManager.GameOverHUD();
+        hudManagerP1.GameOverHUD();
+        hudManagerP2.GameOverHUD();
         restartLevel = true;
     }
     public void LevelComplete()
     {
-        hudManager.LevelCompleteHUD();
+        hudManagerP1.LevelCompleteHUD();
+        hudManagerP2.LevelCompleteHUD();
     }
 }

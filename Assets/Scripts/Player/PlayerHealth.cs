@@ -8,7 +8,7 @@ public class PlayerHealth : MonoBehaviour
 	private Rigidbody playerRigidbody;
 	//private AudioSource playerAudio;
 	private Animator anim; //Holds a reference to the playeres animator
-	public static bool noDamage = false;
+	public bool noDamage = false;
 	private NewMovementControl cm;
 
 	//Settings
@@ -90,4 +90,9 @@ public class PlayerHealth : MonoBehaviour
 		isDead = false;
 		cm.enabled = true; //Allows the player to be moved again
 	}
+
+	public void ResetDamage()
+    {
+		playerHealthAmount = 100;
+    }
 }

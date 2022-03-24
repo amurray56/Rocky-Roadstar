@@ -44,9 +44,14 @@ public class EnemyMovement : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         enemyRigidbody = GetComponent<Rigidbody>();
         enemyCollider = GetComponent<Collider>();
-        player = GameObject.Find("Player").transform;
         enemyHealth = GetComponent<EnemyHealth>();
         convergeOnPlayer = false;
+        Invoke("FindPlayer", 1f);
+    }
+
+    private void FindPlayer()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
         enemyTarget = player; //Sets the enemy target to Player
     }
 

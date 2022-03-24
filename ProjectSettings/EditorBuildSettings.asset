@@ -6,7 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Destroyed_city_FREE/Scenes/destroyed_city.unity
+    path: Assets/Scenes/MainMenu.unity
+    guid: a0ffe2a7518dc6b40879226be3a863bc
+  - enabled: 1
+    path: Assets/Scenes/destroyed_city.unity
     guid: dab52a771d551ca40930496e8e13757a
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 8486e374427fa1f4189aed47cf4b00b4, type: 2}

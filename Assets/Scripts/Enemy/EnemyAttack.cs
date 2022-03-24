@@ -14,6 +14,7 @@ public class EnemyAttack : MonoBehaviour
     public bool playerInRange = false;
     private float timer;
     private GameObject victim;
+    private PlayerHealth playerHealth;
 
     public void Awake()
     {
@@ -21,12 +22,13 @@ public class EnemyAttack : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         inflictDamage = GetComponent<InflictDamage>();
         playerInRange = false;
+        playerHealth = GetComponent<PlayerHealth>();
     }
 
     public void Update()
     {
         timer += Time.deltaTime;
-        if (timer >= timeBetweenAttacks && playerInRange && !PlayerHealth.isDead && !PlayerHealth.noDamage)
+        if (timer >= timeBetweenAttacks && playerInRange && !PlayerHealth.isDead && playerHealth.noDamage)
         {
             Attack(victim);
         }
