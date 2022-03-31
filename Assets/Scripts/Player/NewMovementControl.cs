@@ -120,12 +120,12 @@ public class NewMovementControl : MonoBehaviour
                 anim.SetBool("HasInput", false);
             }
 
-            if (!Input.GetKey(KeyCode.Alpha8) && !Input.GetKey(KeyCode.Keypad2))
+            if (!Input.GetKey(KeyCode.Keypad8) && !Input.GetKey(KeyCode.Keypad2))
             {
                 anim.SetFloat("ForwardMomentum", 0);
             }
 
-            if (!Input.GetKey(KeyCode.Alpha4) && !Input.GetKey(KeyCode.Keypad6))
+            if (!Input.GetKey(KeyCode.Keypad4) && !Input.GetKey(KeyCode.Keypad6))
             {
                 anim.SetFloat("SideMomentum", 0);
             }

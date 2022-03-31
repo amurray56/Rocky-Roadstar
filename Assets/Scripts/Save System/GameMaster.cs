@@ -13,11 +13,13 @@ public class GameMaster : MonoBehaviour
         {
             saveData.AddScore(1);
             PrintScore();
+            Debug.Log(saveData);
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             saveData.AddScore(-1);
             PrintScore();
+            Debug.Log(saveData);
         }
         if (Input.GetKeyDown(KeyCode.F1))
         {
@@ -34,6 +36,7 @@ public class GameMaster : MonoBehaviour
         {
             saveData.ResetData();
             PrintScore();
+            Debug.Log(saveData);
         }
     }
 

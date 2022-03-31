@@ -114,8 +114,8 @@ public class SpawnerManager : MonoBehaviour
     void EnemySetActive()
     {
         //If the distance between the spawn position and the player position is bigger than 15
-        if (Vector3.Distance(spawnPoints[0].position, player.transform.position) > distancePlayerMustBeFromSpawnerBeforeSpawnerInstantiates)
-        {
+        //if (Vector3.Distance(spawnPoints[0].position, player.transform.position) > distancePlayerMustBeFromSpawnerBeforeSpawnerInstantiates)
+        //{
             enemycount++; //adds one to the enemycount
             int a = Random.Range(0, spawnPoints.Count);
             //Set a to a random spawn position
@@ -138,7 +138,7 @@ public class SpawnerManager : MonoBehaviour
             enemiesFromThisSpawnerList.Add(returnedGameObject); //Adds enemy count to the enemiesFromThisSpawnerList
             //Adds the enemy to the main enemy list in the GameController
             GameController.gameController.enemies.Add(returnedGameObject);
-        }
+        //}
     }
     void DestroySpawner()
     {

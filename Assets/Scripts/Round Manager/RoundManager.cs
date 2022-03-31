@@ -31,7 +31,7 @@ public class RoundManager : MonoBehaviour
     [SerializeField] RoundUIManager UIManager;
     public void Start()
     {
-        SetupScene();
+        //SetupScene();
     }
     //SETUP SCENE
     //check that all required scripts and prefabs are in the scene. Set up play area, and reset all variables for a new round
@@ -57,7 +57,6 @@ public class RoundManager : MonoBehaviour
         var playerHealth = player.GetComponent<PlayerHealth>();
         playerHealth.noDamage = false;
         playerHealth.Invoke("ResetDamage", 2f);
-
     }
     //UPDATE SCORE
     // increments or decrements the score of a player, then checks all player scores to see if someone has won.
