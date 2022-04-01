@@ -8,9 +8,10 @@ public class EnemyMovement : MonoBehaviour
     //Settings
     public float enemySpeed = 5f;
     public float enemyStoppingDistance = 1f;
-    private Transform player;
+    private GameObject[] player;
     [HideInInspector]
-    public Transform enemyTarget; //Holds the target that the enemies will move towards
+    public Transform enemyTargetP1; //Holds the target that the enemies will move towards
+    public Transform enemyTargetP2;
     [HideInInspector]
     public static bool convergeOnPlayer = false; //When this value is set to true the enemies will converge on the player
     public static bool sendEnemiesBackToWayPoints = false; //Send enemies back to their waypoints
@@ -23,6 +24,7 @@ public class EnemyMovement : MonoBehaviour
     private Rigidbody enemyRigidbody;
     private Animator anim;
     private EnemyHealth enemyHealth;
+    private NavMeshHit hit;
 
     //Waypoints
     public float enemyWaypointSpeed = 3f;
@@ -31,15 +33,8 @@ public class EnemyMovement : MonoBehaviour
     [HideInInspector]
     public List<Transform> waypoints = new List<Transform>(); //List info parsed from SpawnerManager Script
 
-    private RaycastHit hit;
-
     private void Awake()
     {
-        if (tag != "Enemy")
-        {
-            tag = "Enemy";
-        }
-
         anim = GetComponentInChildren<Animator>();
         agent = GetComponent<NavMeshAgent>();
         enemyRigidbody = GetComponent<Rigidbody>();
@@ -51,8 +46,9 @@ public class EnemyMovement : MonoBehaviour
 
     private void FindPlayer()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        enemyTarget = player; //Sets the enemy target to Player
+        player = GameObject.FindGameObjectsWithTag("Player");
+        enemyTargetP1 = player[0].transform; //Sets the enemy target to Player
+        enemyTargetP2 = player[1].transform;
     }
 
     private void OnEnable()
@@ -69,8 +65,12 @@ public class EnemyMovement : MonoBehaviour
     {
         EnemyMovementAI();
 
-        NavMeshHit hit;
-        if (!NavMesh.Raycast(transform.position, enemyTarget.position, out hit, -1))
+        if (!NavMesh.Raycast(transform.position, enemyTargetP1.position, out hit, -1))
+        {
+            enemyHealth.enemyWasShotAtByThePlayer = false;
+        }
+
+        if (!NavMesh.Raycast(transform.position, enemyTargetP2.position, out hit, -1))
         {
             enemyHealth.enemyWasShotAtByThePlayer = false;
         }
@@ -101,11 +101,10 @@ public class EnemyMovement : MonoBehaviour
     public void UpdatePosition()
     {
         agent.updatePosition = true;
-        NavMeshHit closestHit;
 
-        if (NavMesh.SamplePosition(transform.position, out closestHit, 500, 1))
+        if (NavMesh.SamplePosition(transform.position, out hit, 500, 1))
         {
-            agent.Warp(closestHit.position);
+            agent.Warp(hit.position);
         }
         else
         {
@@ -115,11 +114,10 @@ public class EnemyMovement : MonoBehaviour
 
     void EnemyMovementAI()
     {
-        NavMeshHit hit;
         //If the enemy can see the player or the enemy was shot by the player or converge on player is true
-        if ((!NavMesh.Raycast(transform.position, enemyTarget.position, out hit, -1)) && !PlayerHealth.isDead && !sendEnemiesBackToWayPoints || enemyHealth.enemyWasShotAtByThePlayer && !PlayerHealth.isDead && !sendEnemiesBackToWayPoints || convergeOnPlayer && !PlayerHealth.isDead)
+        if ((!NavMesh.Raycast(transform.position, enemyTargetP1.position, out hit, -1)) && !GetComponent<PlayerHealth>().isDead && !sendEnemiesBackToWayPoints || enemyHealth.enemyWasShotAtByThePlayer && !GetComponent<PlayerHealth>().isDead && !sendEnemiesBackToWayPoints || convergeOnPlayer && !GetComponent<PlayerHealth>().isDead)
         {
-            NavMeshAgentSettings(enemyTarget.position, enemySpeed, enemyStoppingDistance); //Sets the destination for navmesh
+            NavMeshAgentSettings(enemyTargetP1.position, enemySpeed, enemyStoppingDistance); //Sets the destination for navmesh
             anim.SetBool("Run", true);
             anim.SetBool("Walk", false);
         }
@@ -129,11 +127,26 @@ public class EnemyMovement : MonoBehaviour
             anim.SetBool("Run", false);
             anim.SetBool("Walk", true);
         }
+
+        if ((!NavMesh.Raycast(transform.position, enemyTargetP2.position, out hit, -1)) && !GetComponent<PlayerHealth>().isDead && !sendEnemiesBackToWayPoints || enemyHealth.enemyWasShotAtByThePlayer && !GetComponent<PlayerHealth>().isDead && !sendEnemiesBackToWayPoints || convergeOnPlayer && !GetComponent<PlayerHealth>().isDead)
+        {
+            NavMeshAgentSettings(enemyTargetP2.position, enemySpeed, enemyStoppingDistance); //Sets the destination for navmesh
+            anim.SetBool("Run", true);
+            anim.SetBool("Walk", false);
+        }
+        else
+        {
+            Waypoints();
+            anim.SetBool("Run", false);
+            anim.SetBool("Walk", true);
+        }
+
         if (transform.position.y < fallDistanceBeforeDeath && deathChecked == false)
         {
             deathChecked = true;
             enemyHealth.Death();
         }
+
         if (agent.updatePosition == true && !agent.isOnNavMesh)
         {
             enemyHealth.Death();
@@ -170,11 +183,8 @@ public class EnemyMovement : MonoBehaviour
         }
         else
         {
-            GameObject waypoint = GameObject.FindGameObjectWithTag("Waypoint");
-            
             NavMeshAgentSettings(waypoints[wayPointIndex].position, enemyWaypointSpeed, enemyWaypointStoppingDistance);
             //NavMeshAgent.SetPath(waypoints[wayPointIndex].position);
-            
         }
     }
 }

@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hudManagerP1: {fileID: 0}
   hudManagerP2: {fileID: 0}
-  numberOfLivesLeft: 2
+  numberOfLivesLeft: 3
   enemies: []
   gameComplete: 0
   levelComplete: 0

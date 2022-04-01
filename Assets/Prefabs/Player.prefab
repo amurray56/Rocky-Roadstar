@@ -3030,10 +3030,10 @@ GameObject:
   - component: {fileID: 6549757806198204307}
   - component: {fileID: 8543545799211899719}
   - component: {fileID: 8469789347824887828}
-  - component: {fileID: 553949926524121431}
   - component: {fileID: 5844675131451738863}
   - component: {fileID: 5385805920968122810}
   - component: {fileID: 2199557410959224322}
+  - component: {fileID: 7238774668161358672}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -3124,19 +3124,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!135 &553949926524121431
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5580050942606242737}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5844675131451738863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3187,6 +3174,19 @@ MonoBehaviour:
   fire: 0
   taunt: 0
   interact: 0
+--- !u!135 &7238774668161358672
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5580050942606242737}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0.4, z: 0}
 --- !u!1 &5599219386483789535
 GameObject:
   m_ObjectHideFlags: 0

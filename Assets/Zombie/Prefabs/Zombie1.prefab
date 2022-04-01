@@ -1676,12 +1676,11 @@ GameObject:
   - component: {fileID: 7389507112651452681}
   - component: {fileID: 466652983}
   - component: {fileID: 466652984}
-  - component: {fileID: 466652985}
   - component: {fileID: 466652986}
   - component: {fileID: 466652987}
   - component: {fileID: 466652988}
   - component: {fileID: 5425899379786036597}
-  - component: {fileID: 7827748808015747260}
+  - component: {fileID: 497715562633280757}
   m_Layer: 0
   m_Name: Zombie1
   m_TagString: Enemy
@@ -1762,7 +1761,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 4493914613880827488}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 1
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -1775,24 +1774,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 1
   m_ObstacleAvoidanceType: 4
---- !u!114 &466652985
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4493914613880827488}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73407fa4bddf1f64b8e8f46eda4800ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pushForce: 5
-  pushHeight: 0.5
-  damage: 10
-  disableNavmesh: 1
-  hitSound: {fileID: 0}
-  pushTime: 0.2
 --- !u!114 &466652986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1810,7 +1791,7 @@ MonoBehaviour:
   enemyTarget: {fileID: 0}
   fallDistanceBeforeDeath: -10
   enemyWaypointSpeed: 1
-  enemyWaypointStoppingDistance: 1
+  enemyWaypointStoppingDistance: 2
   waypoints:
   - {fileID: 2988976419650010954, guid: a478663555ce194468a1e68e4e3bad90, type: 3}
   - {fileID: 8614783365874543240, guid: 4bfc2e116910f334db19294203fd194b, type: 3}
@@ -1851,6 +1832,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeBetweenAttacks: 1
   playerInRange: 0
+  pushForce: 2
+  pushHeight: 2
+  damage: 10
+  disableNavmesh: 1
+  hitSound: {fileID: 0}
+  pushTime: 0.2
 --- !u!136 &5425899379786036597
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1861,11 +1848,11 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.8
+  m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!135 &7827748808015747260
+--- !u!135 &497715562633280757
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

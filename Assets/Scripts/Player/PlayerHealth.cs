@@ -12,11 +12,12 @@ public class PlayerHealth : MonoBehaviour
 	private NewMovementControl cm;
 
 	//Settings
-	public static float playerHealthAmount = 100; //Players Health
+	public float playerHealthAmount = 100; //Players Health
+	public int numberOfLivesLeft = 3;
 	//public AudioClip damageClip;
 	//public AudioClip deathClip;
 	public float playerRespawnDelay = 6f;
-	public static bool isDead = false;
+	public bool isDead = false;
 
 	public void Awake()
 	{
@@ -60,10 +61,10 @@ public class PlayerHealth : MonoBehaviour
 	//This function is called when the player has < 0 health
 	public void Death()
 	{
-		GameController.gameController.numberOfLivesLeft--; //Takes a life from the player
+		numberOfLivesLeft--; //Takes a life from the player
 		
 		//Resets health
-		if (GameController.gameController.numberOfLivesLeft > 0)
+		if (numberOfLivesLeft > 0)
 		{
 			playerHealthAmount = 100;
 		}
@@ -76,7 +77,7 @@ public class PlayerHealth : MonoBehaviour
 		isDead = true;
 		playerRigidbody.isKinematic = true;
 		
-		if (GameController.gameController.numberOfLivesLeft > 0)
+		if (numberOfLivesLeft > 0)
 		{
 			Invoke("Respawn", playerRespawnDelay);  //Calls the respawns function after a set amount of time
 		}

@@ -11,6 +11,8 @@ public class HUDManager : MonoBehaviour
     public static bool gamePaused;
     public static bool victory;
     public static bool lose;
+    private int livesLeft;
+    private float healthLeft;
     
     //Settings
     public Text HUDLives;
@@ -21,19 +23,21 @@ public class HUDManager : MonoBehaviour
     public void Awake()
     {
         //Time.timeScale = 1;
-        PlayerHealth.isDead = false;
+        //PlayerHealth.isDead = false;
         victory = false;
         lose = false;
         gamePaused = false;
         gameOver.SetActive(false);
         hud.SetActive(true);
         //Cursor.lockState = CursorLockMode.Locked;
+        livesLeft = GetComponent<PlayerHealth>().numberOfLivesLeft;
+        healthLeft = GetComponent<PlayerHealth>().playerHealthAmount;
     }
 
     public void Update()
     {
 
-        if (GameController.gameController.numberOfLivesLeft > 0)
+        if (livesLeft > 0)
         {
             gameOver.SetActive(false);
             //Time.timeScale = 1;
@@ -69,16 +73,16 @@ public class HUDManager : MonoBehaviour
 
     public void UpdateHUD()
     {
-        HUDLives.text = GameController.gameController.numberOfLivesLeft.ToString();
-        HUDCrystals.text = GameController.gameController.crystals.ToString();
-        HUDHealthSlider.value = PlayerHealth.playerHealthAmount;
+        HUDLives.text = livesLeft.ToString();
+        //HUDCrystals.text = GetComponent.;
+        HUDHealthSlider.value = healthLeft;
         //HUDEnemiesKilled.text = GameController.gameController.totalEnemiesKilled.ToString();
         //playerHealth is a static variable so we can access it from the script name and then the variable
     }
 
     public void GameOverHUD()
     {
-        if (GameController.gameController.numberOfLivesLeft == 0)
+        if (livesLeft == 0)
         {
             gamePaused = true;
             hud.SetActive(false);

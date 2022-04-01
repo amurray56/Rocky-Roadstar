@@ -13,7 +13,6 @@ public class GameController : MonoBehaviour
     public HUDManager hudManagerP2;
 
     //Settings
-    public int numberOfLivesLeft;
     public List<GameObject> enemies = new List<GameObject>();//List of enemies
 
     //General
@@ -34,17 +33,11 @@ public class GameController : MonoBehaviour
         enemies.Clear();
         crystals = 0;
         totalEnemiesKilled = 0;
-        if (restartLevel == true)
-        {
-            numberOfLivesLeft = 3;
-            PlayerHealth.isDead = false;
-            PlayerHealth.playerHealthAmount = 100f;
-            restartLevel = false;
-        }
+  
         Debug.Log("OnSceneLoaded: " + scene.name);
         Debug.Log(mode);
-        Invoke("FindHUD", .5f);
-        Invoke("UpdateHUDManager", .6f);
+        Invoke("FindHUD", 1f);
+        Invoke("UpdateHUDManager", 1.1f);
     }
 
     private void FindHUD()
@@ -80,20 +73,17 @@ public class GameController : MonoBehaviour
         UpdateHUDManager();
     }
 
-    private void Update()
-    {
-        if (numberOfLivesLeft == 0)
-        {
-            GameOver();
-        }
-    }
     public void UpdateHUDManager()
     {
-        if(GameObject.Find("HUDP1"))
-        hudManagerP1.UpdateHUD();
-
-        if(GameObject.Find("HUDP2"))
-        hudManagerP2.UpdateHUD();
+        if (GameObject.Find("HUDP1") && GameObject.Find("HUDP2"))
+        {
+            hudManagerP1.UpdateHUD();
+            hudManagerP2.UpdateHUD();
+        }
+        else if (GameObject.Find("HUDP1"))
+        {
+            hudManagerP1.UpdateHUD();
+        }
     }
     void PauseTheGame()
     {
