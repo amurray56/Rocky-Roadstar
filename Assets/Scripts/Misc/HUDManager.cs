@@ -30,8 +30,8 @@ public class HUDManager : MonoBehaviour
         gameOver.SetActive(false);
         hud.SetActive(true);
         //Cursor.lockState = CursorLockMode.Locked;
-        livesLeft = GetComponent<PlayerHealth>().numberOfLivesLeft;
-        healthLeft = GetComponent<PlayerHealth>().playerHealthAmount;
+        livesLeft = GetComponentInParent<PlayerHealth>().numberOfLivesLeft;
+        healthLeft = GetComponentInParent<PlayerHealth>().playerHealthAmount;
     }
 
     public void Update()

@@ -68,19 +68,15 @@ public class GameController : MonoBehaviour
 
         
     }
-    void Start()
-    {
-        UpdateHUDManager();
-    }
 
     public void UpdateHUDManager()
     {
-        if (GameObject.Find("HUDP1") && GameObject.Find("HUDP2"))
+        if (GameObject.Find("HUDP2"))
         {
             hudManagerP1.UpdateHUD();
             hudManagerP2.UpdateHUD();
         }
-        else if (GameObject.Find("HUDP1"))
+        else
         {
             hudManagerP1.UpdateHUD();
         }

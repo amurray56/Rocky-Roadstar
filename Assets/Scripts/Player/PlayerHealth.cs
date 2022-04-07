@@ -10,6 +10,7 @@ public class PlayerHealth : MonoBehaviour
 	private Animator anim; //Holds a reference to the playeres animator
 	public bool noDamage = false;
 	private NewMovementControl cm;
+	private HUDManager hUDManager;
 
 	//Settings
 	public float playerHealthAmount = 100; //Players Health
@@ -26,6 +27,7 @@ public class PlayerHealth : MonoBehaviour
 		anim = GetComponent<Animator>();
 		cm = GetComponent<NewMovementControl>();
 		playerHealthAmount = 100;
+		hUDManager = GetComponentInChildren<HUDManager>();
 	}
 	public void Start()
 	{
@@ -49,7 +51,7 @@ public class PlayerHealth : MonoBehaviour
 		}
 
 		playerHealthAmount -= amount; //Takes health
-		GameController.gameController.UpdateHUDManager(); //Updates the health in the hud
+		hUDManager.UpdateHUD(); //Updates the health in the hud
 
 		//If we have run out of health then call Death function
 		if (playerHealthAmount <= 0)
