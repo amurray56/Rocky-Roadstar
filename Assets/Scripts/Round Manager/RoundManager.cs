@@ -6,6 +6,9 @@ public class RoundManager : MonoBehaviour
 {
     //SINGLETON PATTERN
     public static RoundManager instance;
+
+    public int winningScore = 60;
+
     private void Awake()
     {
         #region Singleton pattern
@@ -42,6 +45,7 @@ public class RoundManager : MonoBehaviour
         {
             SpawnPlayer(i);
         }
+        playerScores[players.Length] = 0;
         UIManager.UpdateScoreUI();
     }
     //SPAWN PLAYERS
@@ -51,7 +55,7 @@ public class RoundManager : MonoBehaviour
         var player = Instantiate(players[playerNumber-1], spawnPositions[playerNumber-1].position, players[playerNumber-1].transform.rotation);
 
         var playerInputs = player.GetComponent<PlayerInputs>();
-        playerInputs.playerNum = playerNumber;
+        playerInputs.playerNum = playerNumber-1;
         playerInputs.DetermineInputs();
 
         var playerHealth = player.GetComponent<PlayerHealth>();
@@ -61,21 +65,16 @@ public class RoundManager : MonoBehaviour
     //UPDATE SCORE
     // increments or decrements the score of a player, then checks all player scores to see if someone has won.
     // triggers the end round and passes information on. also calls out to the UI manager if it exists to update.
-    public void UpdateScore(int playerScoring, int playerKilled)
+    public void UpdateScore(int playerNum, int score)
     {
-        if(playerScoring == 0 || playerScoring == playerKilled)
+        playerScores[playerNum] += score;
+
+        if(playerScores[playerNum] == winningScore)
         {
-            playerScores[playerKilled - 1]--;
+            Debug.Log("Player " + (playerNum + 1) + " Has Won");
+            UIManager.UpdateScoreUI();
+            EndRound(playerNum + 1);
         }
-        else
-        {
-            playerScores[playerScoring - 1]++;
-        }
-        if(playerScores[playerScoring-1] >= maxKills)
-        {
-            EndRound(playerScoring);
-        }
-        if(UIManager != null) UIManager.UpdateScoreUI();
     }
     //RUN TIMER
     //ticks down the timer and checks for end round. passes info to UI manager if it exists
@@ -89,3 +88,22 @@ public class RoundManager : MonoBehaviour
         if (UIManager != null) UIManager.DisplayResults(WinningPlayer);
     }
 }
+/*
+public void UpdateScore(int playerScoring, int playerKilled)
+{
+    if (playerScoring == 0 || playerScoring == playerKilled)
+    {
+        playerScores[playerKilled - 1]--;
+    }
+    else
+    {
+        playerScores[playerScoring - 1]++;
+    }
+    if (playerScores[playerScoring - 1] >= maxKills)
+    {
+        EndRound(playerScoring);
+    }
+    if (UIManager != null) UIManager.UpdateScoreUI();
+}*/
+
+

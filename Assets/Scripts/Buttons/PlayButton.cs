@@ -68,16 +68,16 @@ public class PlayButton : MonoBehaviour
 
     public void LoadOnePlayer()
     {
-        roundManager = GameObject.Find("Game Controller").GetComponent<RoundManager>();
+        roundManager = GameObject.Find("RoundCanvas").GetComponent<RoundManager>();
         roundManager.SpawnPlayer(1);
         GameObject.Find("Player(Clone)").GetComponentInChildren<Camera>().rect = new Rect(0, 0, 1, 1);
     }
 
     public void LoadTwoPlayer()
     {
-        roundManager = GameObject.Find("Game Controller").GetComponent<RoundManager>();
+        roundManager = GameObject.Find("RoundCanvas").GetComponent<RoundManager>();
         roundManager.SetupScene();
-        GameObject.Find("Player1(Clone)").GetComponentInChildren<Camera>().rect = new Rect(0, 0, .5f, 1);
+        GameObject.Find("Player(Clone)").GetComponentInChildren<Camera>().rect = new Rect(0, 0, .5f, 1);
         GameObject.Find("Player2(Clone)").GetComponentInChildren<Camera>().rect = new Rect(0.5f, 0, .5f, 1);
     }
 }

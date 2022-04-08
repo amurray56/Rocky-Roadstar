@@ -23,7 +23,7 @@ public class NewMovementControl : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(playerNum == 1)
+        if(playerNum == 0)
         {
             if (Input.GetKey(KeyCode.W))
             {
@@ -77,7 +77,7 @@ public class NewMovementControl : MonoBehaviour
             }
         }
 
-        if (playerNum == 2)
+        if (playerNum == 1)
         {
             if (Input.GetKey(KeyCode.Keypad8))
             {

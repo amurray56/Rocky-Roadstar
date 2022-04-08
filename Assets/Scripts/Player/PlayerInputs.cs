@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerInputs : MonoBehaviour
 {
-    public int playerNum = 1;
+    public int playerNum = 0;
     [HideInInspector]
     public KeyCode forward, backward, left, right, jump, fire, taunt, interact;
 

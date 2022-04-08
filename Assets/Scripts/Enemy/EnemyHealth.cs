@@ -67,7 +67,7 @@ public class EnemyHealth : MonoBehaviour
         {
             Death();
             //Add to the total number of enemies killed
-            GameController.gameController.totalEnemiesKilled++;
+            //GameController.gameController.totalEnemiesKilled++;
             GameController.gameController.UpdateHUDManager();
         }
     }

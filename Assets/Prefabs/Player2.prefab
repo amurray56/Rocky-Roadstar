@@ -1584,7 +1584,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noDamage: 0
+  playerHealthAmount: 100
+  numberOfLivesLeft: 3
   playerRespawnDelay: 6
+  isDead: 0
 --- !u!114 &5213924128610743936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1597,7 +1600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6034efc3721dff4394b45386424bb5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerNum: 2
+  playerNum: 1
   forward: 0
   backward: 0
   left: 0

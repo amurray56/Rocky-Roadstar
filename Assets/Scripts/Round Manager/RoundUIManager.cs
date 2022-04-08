@@ -4,15 +4,15 @@ using UnityEngine;
 using TMPro;
 public class RoundUIManager : MonoBehaviour
 {
-    [SerializeField] TMP_Text[] playerScoreUIs;
+    [SerializeField] TMP_Text[] playerScoreUis;
     [SerializeField] CanvasGroup WinScreen;
     [SerializeField] TMP_Text winningPlayerName;
 
     public void UpdateScoreUI()
     {
-       for(int i = 0; i < playerScoreUIs.Length; i++)
+       for(int i = 0; i < playerScoreUis.Length; i++)
         {
-            playerScoreUIs[i].text = "Player " + (i + 1).ToString() + " : " + RoundManager.instance.playerScores[i].ToString(); 
+            playerScoreUis[i].text = "Player " + (i + 1).ToString() + " : " + RoundManager.instance.playerScores[i].ToString(); 
         }
     }
     public void DisplayResults(int winningPlayer)

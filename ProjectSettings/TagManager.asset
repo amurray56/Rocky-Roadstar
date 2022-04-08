@@ -8,7 +8,7 @@ TagManager:
   - Enemy
   - SpawnPoint
   - Waypoint
-  - Player2
+  - Coin
   layers:
   - Default
   - TransparentFX

@@ -19,7 +19,6 @@ public class GameController : MonoBehaviour
     public bool gameComplete = false;
     public bool levelComplete = false;
     public bool restartLevel = false; // addition
-    public int crystals, totalEnemiesKilled;
 
     public Vector3 playerRespawnPosition;
 
@@ -31,8 +30,6 @@ public class GameController : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)//addition
     {
         enemies.Clear();
-        crystals = 0;
-        totalEnemiesKilled = 0;
   
         Debug.Log("OnSceneLoaded: " + scene.name);
         Debug.Log(mode);

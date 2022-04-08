@@ -10,8 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 551542548447714244}
   - component: {fileID: 551542548447714245}
-  - component: {fileID: 551542548447714266}
-  - component: {fileID: 551542548447714267}
+  - component: {fileID: -2739947659862558381}
   m_Layer: 0
   m_Name: Game Controller
   m_TagString: Untagged
@@ -47,15 +46,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hudManagerP1: {fileID: 0}
   hudManagerP2: {fileID: 0}
-  numberOfLivesLeft: 3
   enemies: []
   gameComplete: 0
   levelComplete: 0
   restartLevel: 0
-  crystals: 0
-  totalEnemiesKilled: 0
   playerRespawnPosition: {x: 289.1, y: -2.861, z: 100.77}
---- !u!114 &551542548447714266
+--- !u!114 &-2739947659862558381
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -64,32 +60,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 551542548447714246}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51099f73a26d5d2489dfca49fe40f80a, type: 3}
+  m_Script: {fileID: 11500000, guid: bd4f48b34b2d1a24ea31de22d1a6013b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  players:
-  - {fileID: 5580050942606242737, guid: beded88a7c7456c4b8ce0badee868cdd, type: 3}
-  - {fileID: 3104482793894851096, guid: 85c162e79508c3c47aec0f46474a94c0, type: 3}
-  playerScores: 0000000000000000
-  spawnPositions:
-  - {fileID: 0}
-  - {fileID: 0}
-  maxKills: 1
-  UIManager: {fileID: 0}
---- !u!114 &551542548447714267
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 551542548447714246}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73ae016d45037144dbb9483d0e45e545, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerScoreUIs:
-  - {fileID: 0}
-  - {fileID: 0}
-  WinScreen: {fileID: 0}
-  winningPlayerName: {fileID: 0}
