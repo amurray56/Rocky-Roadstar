@@ -12,7 +12,10 @@ public class RoundUIManager : MonoBehaviour
     {
        for(int i = 0; i < playerScoreUis.Length; i++)
         {
-            playerScoreUis[i].text = "Player " + (i + 1).ToString() + " : " + RoundManager.instance.playerScores[i].ToString(); 
+            playerScoreUis[i].text = RoundManager.instance.playerScores[i].ToString();
+
+            //Orignal line
+            //playerScoreUis[i].text = "Player " + (i + 1).ToString() + " : " + RoundManager.instance.playerScores[i].ToString();
         }
     }
     public void DisplayResults(int winningPlayer)
@@ -21,6 +24,14 @@ public class RoundUIManager : MonoBehaviour
         WinScreen.gameObject.SetActive(true);
         StartCoroutine(CanvasFadeIn());
     }
+
+    public void DisplayResultsDraw()
+    {
+        winningPlayerName.text = "Draw";
+        WinScreen.gameObject.SetActive(true);
+        StartCoroutine(CanvasFadeIn());
+    }
+
     IEnumerator CanvasFadeIn()
     {
         WaitForEndOfFrame WFEOF = new WaitForEndOfFrame();

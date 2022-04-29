@@ -2381,62 +2381,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5012241914213770943, guid: 65136265c7a4bc041b67ddb09a211514, type: 3}
-      propertyPath: winningScore
-      value: 100
+    - target: {fileID: 5012241914213770941, guid: 65136265c7a4bc041b67ddb09a211514, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 2116019944}
+    - target: {fileID: 5012241914213770942, guid: 65136265c7a4bc041b67ddb09a211514, type: 3}
+      propertyPath: drawScreen
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5012241914213770943, guid: 65136265c7a4bc041b67ddb09a211514, type: 3}
-      propertyPath: goldCoins.Array.size
-      value: 11
+      propertyPath: drawImage
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5012241914213770943, guid: 65136265c7a4bc041b67ddb09a211514, type: 3}
-      propertyPath: goldCoins.Array.data[0]
+      propertyPath: gameOverImage
       value: 
-      objectReference: {fileID: 1834980395}
-    - target: {fileID: 5012241914213770943, guid: 65136265c7a4bc041b67ddb09a211514, type: 3}
-      propertyPath: goldCoins.Array.data[1]
-      value: 
-      objectReference: {fileID: 682556318}
-    - target: {fileID: 5012241914213770943, guid: 65136265c7a4bc041b67ddb09a211514, type: 3}
-      propertyPath: goldCoins.Array.data[2]
-      value: 
-      objectReference: {fileID: 1286662768}
-    - target: {fileID: 5012241914213770943, guid: 65136265c7a4bc041b67ddb09a211514, type: 3}
-      propertyPath: goldCoins.Array.data[3]
-      value: 
-      objectReference: {fileID: 1050802159}
-    - target: {fileID: 5012241914213770943, guid: 65136265c7a4bc041b67ddb09a211514, type: 3}
-      propertyPath: goldCoins.Array.data[4]
-      value: 
-      objectReference: {fileID: 968666527}
-    - target: {fileID: 5012241914213770943, guid: 65136265c7a4bc041b67ddb09a211514, type: 3}
-      propertyPath: goldCoins.Array.data[5]
-      value: 
-      objectReference: {fileID: 1028186160}
-    - target: {fileID: 5012241914213770943, guid: 65136265c7a4bc041b67ddb09a211514, type: 3}
-      propertyPath: goldCoins.Array.data[6]
-      value: 
-      objectReference: {fileID: 705767689}
-    - target: {fileID: 5012241914213770943, guid: 65136265c7a4bc041b67ddb09a211514, type: 3}
-      propertyPath: goldCoins.Array.data[7]
-      value: 
-      objectReference: {fileID: 2013883285}
-    - target: {fileID: 5012241914213770943, guid: 65136265c7a4bc041b67ddb09a211514, type: 3}
-      propertyPath: goldCoins.Array.data[8]
-      value: 
-      objectReference: {fileID: 857310016}
-    - target: {fileID: 5012241914213770943, guid: 65136265c7a4bc041b67ddb09a211514, type: 3}
-      propertyPath: goldCoins.Array.data[9]
-      value: 
-      objectReference: {fileID: 1010234846}
-    - target: {fileID: 5012241914213770943, guid: 65136265c7a4bc041b67ddb09a211514, type: 3}
-      propertyPath: playerScores.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5012241914213770943, guid: 65136265c7a4bc041b67ddb09a211514, type: 3}
-      propertyPath: goldCoins.Array.data[10]
-      value: 
-      objectReference: {fileID: 311157943}
+      objectReference: {fileID: 1604810435}
     - target: {fileID: 5012241914213770943, guid: 65136265c7a4bc041b67ddb09a211514, type: 3}
       propertyPath: spawnPositions.Array.data[0]
       value: 
@@ -2445,6 +2405,10 @@ PrefabInstance:
       propertyPath: spawnPositions.Array.data[1]
       value: 
       objectReference: {fileID: 1019473177}
+    - target: {fileID: 5012241916022630268, guid: 65136265c7a4bc041b67ddb09a211514, type: 3}
+      propertyPath: m_Name
+      value: GameOverImage
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65136265c7a4bc041b67ddb09a211514, type: 3}
 --- !u!1 &947324823
@@ -3492,6 +3456,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2524214610030329978, guid: cd21ec89fd3538844b66ab11309abcf2, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5520902171254389786, guid: cd21ec89fd3538844b66ab11309abcf2, type: 3}
       propertyPath: m_RootOrder
       value: 38
@@ -3542,6 +3510,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5580050942606242737, guid: cd21ec89fd3538844b66ab11309abcf2, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7838042636787697457, guid: cd21ec89fd3538844b66ab11309abcf2, type: 3}
+      propertyPath: m_TargetDisplay
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -4197,6 +4169,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19e3bec5d2084834e86823c680ab9eb1, type: 3}
+--- !u!1 &1604810435 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5012241916022630268, guid: 65136265c7a4bc041b67ddb09a211514, type: 3}
+  m_PrefabInstance: {fileID: 934153004}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1610814831
 GameObject:
   m_ObjectHideFlags: 0
@@ -5336,6 +5313,11 @@ Transform:
   m_Father: {fileID: 2548440303861331738}
   m_RootOrder: 59
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &2116019944 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 7838042636787697457, guid: cd21ec89fd3538844b66ab11309abcf2, type: 3}
+  m_PrefabInstance: {fileID: 1298632083}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &551542548200915993
 GameObject:
   m_ObjectHideFlags: 0

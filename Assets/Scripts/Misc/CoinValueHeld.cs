@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CoinValueHeld : MonoBehaviour
 {
+    [HideInInspector]
     public int coinValueHeld;
 
     private void OnTriggerEnter(Collider other)

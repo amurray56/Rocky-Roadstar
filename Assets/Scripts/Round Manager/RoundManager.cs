@@ -7,8 +7,6 @@ public class RoundManager : MonoBehaviour
     //SINGLETON PATTERN
     public static RoundManager instance;
 
-    public int winningScore = 60;
-
     private void Awake()
     {
         #region Singleton pattern
@@ -22,6 +20,7 @@ public class RoundManager : MonoBehaviour
         }
         #endregion
     }
+
     //list of players
     public GameObject[] players;
     //list of scores
@@ -69,11 +68,37 @@ public class RoundManager : MonoBehaviour
     {
         playerScores[playerNum] += score;
 
+        /*
         if(playerScores[playerNum] == winningScore)
         {
             Debug.Log("Player " + (playerNum + 1) + " Has Won");
             UIManager.UpdateScoreUI();
             EndRound(playerNum + 1);
+        }
+        */
+
+        Invoke("CheckForEnd", .5f);
+    }
+
+    public void CheckForEnd()
+    {
+        if (!GameObject.FindGameObjectWithTag("Coin") && GameObject.FindGameObjectWithTag("Player").GetComponent<CoinValueHeld>().coinValueHeld == 0)
+        {
+            if (playerScores[0] == playerScores[1])
+            {
+                UIManager.UpdateScoreUI();
+                UIManager.DisplayResultsDraw();
+            }
+
+            else if (playerScores[0] > playerScores[1])
+            {
+                EndRound(1);
+            }
+
+            else if (playerScores[0] < playerScores[1])
+            {
+                EndRound(2);
+            }
         }
     }
     //RUN TIMER
@@ -85,7 +110,11 @@ public class RoundManager : MonoBehaviour
     public void EndRound(int WinningPlayer)
     {
         Debug.Log("Game Over! Player " + WinningPlayer + " Has won the game!");
-        if (UIManager != null) UIManager.DisplayResults(WinningPlayer);
+        if (UIManager != null)
+        {
+            UIManager.DisplayResults(WinningPlayer);
+            UIManager.UpdateScoreUI();
+        }
     }
 }
 /*
