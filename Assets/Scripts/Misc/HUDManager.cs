@@ -11,12 +11,12 @@ public class HUDManager : MonoBehaviour
     public static bool gamePaused;
     public static bool victory;
     public static bool lose;
-    private int livesLeft;
-    private float healthLeft;
+    private int playerNum;
     
     //Settings
     public Text HUDLives;
-    public Text HUDCrystals;
+    public Text HUDScore;
+    public Text HUDCoinsHeld;
     public Slider HUDHealthSlider; //Allos access to GUI health slider
     //public Text HUDEnemiesKilled;
 
@@ -29,15 +29,14 @@ public class HUDManager : MonoBehaviour
         gamePaused = false;
         gameOver.SetActive(false);
         hud.SetActive(true);
+        playerNum = GetComponentInParent<PlayerInputs>().playerNum;
         //Cursor.lockState = CursorLockMode.Locked;
-        livesLeft = GetComponentInParent<PlayerHealth>().numberOfLivesLeft;
-        healthLeft = GetComponentInParent<PlayerHealth>().playerHealthAmount;
     }
 
     public void Update()
     {
 
-        if (livesLeft > 0)
+        if (GetComponentInParent<PlayerHealth>().numberOfLivesLeft > 0)
         {
             gameOver.SetActive(false);
             //Time.timeScale = 1;
@@ -73,16 +72,15 @@ public class HUDManager : MonoBehaviour
 
     public void UpdateHUD()
     {
-        HUDLives.text = livesLeft.ToString();
-        //HUDCrystals.text = GetComponent.;
-        HUDHealthSlider.value = healthLeft;
-        //HUDEnemiesKilled.text = GameController.gameController.totalEnemiesKilled.ToString();
-        //playerHealth is a static variable so we can access it from the script name and then the variable
+        HUDLives.text = GetComponentInParent<PlayerHealth>().numberOfLivesLeft.ToString();
+        HUDHealthSlider.value = GetComponentInParent<PlayerHealth>().playerHealthAmount;
+        HUDScore.text = GameObject.Find("RoundCanvas").GetComponent<RoundManager>().playerScores[playerNum].ToString();
+        HUDCoinsHeld.text = GetComponentInParent<CoinValueHeld>().coinValueHeld.ToString();
     }
 
     public void GameOverHUD()
     {
-        if (livesLeft == 0)
+        if (GetComponentInParent<PlayerHealth>().numberOfLivesLeft == 0)
         {
             gamePaused = true;
             hud.SetActive(false);

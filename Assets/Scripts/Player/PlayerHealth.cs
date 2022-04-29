@@ -29,10 +29,6 @@ public class PlayerHealth : MonoBehaviour
 		playerHealthAmount = 100;
 		hUDManager = GetComponentInChildren<HUDManager>();
 	}
-	public void Start()
-	{
-		GameController.gameController.playerRespawnPosition = transform.position; //This holds the players starting poistion, so that if the player has not found a checkpoint the player will appear where we started.
-	}
 
 	public void Update()
 	{
@@ -64,6 +60,7 @@ public class PlayerHealth : MonoBehaviour
 	public void Death()
 	{
 		numberOfLivesLeft--; //Takes a life from the player
+		GetComponent<CoinValueHeld>().coinValueHeld = 0;
 		
 		//Resets health
 		if (numberOfLivesLeft > 0)
@@ -88,10 +85,11 @@ public class PlayerHealth : MonoBehaviour
 	void Respawn()
 	{
 		anim.SetBool("isDead", false);
-		transform.position = GameController.gameController.playerRespawnPosition; //Sets the players respawn posistion
+		//transform.position = GameController.gameController.playerRespawnPosition; //Sets the players respawn posistion
 		playerRigidbody.isKinematic = false;
 		isDead = false;
 		cm.enabled = true; //Allows the player to be moved again
+
 	}
 
 	public void ResetDamage()

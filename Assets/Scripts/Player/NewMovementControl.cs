@@ -132,9 +132,9 @@ public class NewMovementControl : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnCollisionStay(Collision collision)
     {
-        if(other.transform.tag == "Ground")
+        if (collision.collider.CompareTag("Ground"))
         {
             isGrounded = true;
             anim.SetBool("Jumping", false);

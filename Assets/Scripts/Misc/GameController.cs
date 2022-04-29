@@ -20,8 +20,6 @@ public class GameController : MonoBehaviour
     public bool levelComplete = false;
     public bool restartLevel = false; // addition
 
-    public Vector3 playerRespawnPosition;
-
     void OnEnable()//addition
     {
         Debug.Log("OnEnable called");

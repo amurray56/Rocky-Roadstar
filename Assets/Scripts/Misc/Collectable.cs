@@ -10,16 +10,11 @@ public class Collectable: MonoBehaviour
 {
     //General
     public int coinValue = 20;
-    private GameObject roundCanvas;
-
-    private RoundManager roundManager;
 
     private Vector3 rotation = new Vector3(0, 80, 0); //Sets the rotation direction
 
     private void Start()
     {
-        roundCanvas = GameObject.Find("RoundCanvas");
-        roundManager = roundCanvas.GetComponent<RoundManager>();
         GetComponent<SphereCollider>().isTrigger = true;
     }
 
@@ -32,7 +27,6 @@ public class Collectable: MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
-            roundManager.UpdateScore(other.GetComponent<PlayerInputs>().playerNum, coinValue);
             gameObject.SetActive(false);
         }
     }
