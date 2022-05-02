@@ -60,8 +60,6 @@ public class GameController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        
     }
 
     public void UpdateHUDManager()

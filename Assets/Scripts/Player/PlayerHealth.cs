@@ -15,6 +15,7 @@ public class PlayerHealth : MonoBehaviour
 	//Settings
 	public float playerHealthAmount = 100; //Players Health
 	public int numberOfLivesLeft = 3;
+	public Vector3 respawnPoint;
 	//public AudioClip damageClip;
 	//public AudioClip deathClip;
 	public float playerRespawnDelay = 6f;
@@ -85,7 +86,7 @@ public class PlayerHealth : MonoBehaviour
 	void Respawn()
 	{
 		anim.SetBool("isDead", false);
-		//transform.position = GameController.gameController.playerRespawnPosition; //Sets the players respawn posistion
+		transform.position = respawnPoint; //Sets the players respawn posistion
 		playerRigidbody.isKinematic = false;
 		isDead = false;
 		cm.enabled = true; //Allows the player to be moved again

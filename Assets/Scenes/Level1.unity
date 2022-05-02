@@ -1395,11 +1395,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1198397113443319110, guid: beded88a7c7456c4b8ce0badee868cdd, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1198397113443319110, guid: beded88a7c7456c4b8ce0badee868cdd, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5520902171254389786, guid: beded88a7c7456c4b8ce0badee868cdd, type: 3}
       propertyPath: m_RootOrder
@@ -1451,7 +1451,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5580050942606242737, guid: beded88a7c7456c4b8ce0badee868cdd, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: beded88a7c7456c4b8ce0badee868cdd, type: 3}
@@ -5537,7 +5537,7 @@ MonoBehaviour:
   spawnTime: 1
   enemyPrefabs:
   - {fileID: 4493914613880827488, guid: 6dc4cf4496348884d8ee27743ae38562, type: 3}
-  maxNumberOfEnemiesAtOneTime: 50
+  maxNumberOfEnemiesAtOneTime: 100
   maxNumberOfEnemiesOtherSpawnerLifeTime: 10000
   distancePlayerMustBeFromSpawnerBeforeSpawnerInstantiates: 15
   enableSpawnerByTrigger: 0

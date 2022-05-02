@@ -2102,6 +2102,7 @@ MonoBehaviour:
   noDamage: 0
   playerHealthAmount: 100
   numberOfLivesLeft: 3
+  respawnPoint: {x: 339.62, y: 0.93, z: 489.66}
   playerRespawnDelay: 6
   isDead: 0
 --- !u!114 &5385805920968122810
