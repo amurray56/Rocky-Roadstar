@@ -66,21 +66,20 @@ public class PlayerHealth : MonoBehaviour
 		//Resets health
 		if (numberOfLivesLeft > 0)
 		{
+			Invoke("Respawn", playerRespawnDelay);  //Calls the respawns function after a set amount of time
 			playerHealthAmount = 100;
 		}
 
-		GameController.gameController.UpdateHUDManager(); //updates value on hud
+		GameObject.Find("RoundCanvas").GetComponent<RoundManager>().UpdateHUDManager(); //updates value on hud
 		cm.enabled = false; //Stops the player from being moved
 
 		anim.SetTrigger("Death");
 		anim.SetBool("isDead", true);
 		isDead = true;
 		playerRigidbody.isKinematic = true;
-		
-		if (numberOfLivesLeft > 0)
-		{
-			Invoke("Respawn", playerRespawnDelay);  //Calls the respawns function after a set amount of time
-		}
+
+		GameObject.Find("RoundCanvas").GetComponent<RoundManager>().Checking();
+		GameObject.Find("RoundCanvas").GetComponent<RoundManager>().CheckForEnd();
 	}
 	//Respawns the player
 	void Respawn()

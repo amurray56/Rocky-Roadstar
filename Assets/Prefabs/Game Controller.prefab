@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &551542548447714246
+--- !u!1 &6102741104578701347
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 551542548447714244}
-  - component: {fileID: 551542548447714245}
-  - component: {fileID: -2739947659862558381}
+  - component: {fileID: 6102741104578701345}
+  - component: {fileID: 6102741104578701350}
+  - component: {fileID: 6102741104578701344}
+  - component: {fileID: 6102741104578701351}
   m_Layer: 0
   m_Name: Game Controller
   m_TagString: Untagged
@@ -18,13 +19,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &551542548447714244
+--- !u!4 &6102741104578701345
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 551542548447714246}
+  m_GameObject: {fileID: 6102741104578701347}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 370.79056, y: 1016.7127, z: -430.81903}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -32,13 +33,13 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &551542548447714245
+--- !u!114 &6102741104578701350
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 551542548447714246}
+  m_GameObject: {fileID: 6102741104578701347}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37b01ee8fc38a4649a2023ad2205302f, type: 3}
@@ -46,20 +47,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hudManagerP1: {fileID: 0}
   hudManagerP2: {fileID: 0}
-  enemies: []
+  enemies:
+  - {fileID: 4493914613880827488, guid: 6dc4cf4496348884d8ee27743ae38562, type: 3}
   gameComplete: 0
   levelComplete: 0
   restartLevel: 0
-  playerRespawnPosition: {x: 289.1, y: -2.861, z: 100.77}
---- !u!114 &-2739947659862558381
+--- !u!114 &6102741104578701344
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 551542548447714246}
+  m_GameObject: {fileID: 6102741104578701347}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bd4f48b34b2d1a24ea31de22d1a6013b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6102741104578701351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6102741104578701347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d0c84ede27a344f9a727cdbf775252, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

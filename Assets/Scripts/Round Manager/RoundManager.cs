@@ -1,11 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class RoundManager : MonoBehaviour
 {
+    //Scoreboard Settings
+    public InputField p1Name;
+    public InputField p2Name;
+    public TextMeshProUGUI p1Score;
+    public TextMeshProUGUI p2Score;
+
     //SINGLETON PATTERN
     public static RoundManager instance;
+
+    public HUDManager hudManagerP1;
+    public HUDManager hudManagerP2;
 
     private void Awake()
     {
@@ -23,6 +34,7 @@ public class RoundManager : MonoBehaviour
 
     //list of players
     public GameObject[] players;
+    public PlayerHealth[] playerLivesLeft;
     //list of scores
     public int[] playerScores;
     //list of spawn positions
@@ -33,7 +45,10 @@ public class RoundManager : MonoBehaviour
     [SerializeField] RoundUIManager UIManager;
     public void Start()
     {
-        //SetupScene();
+        Invoke("FindHUD", 0.1f);
+        Invoke("UpdateHUDManager", 0.1f);
+        Invoke("PlayerHealthSetup", 0.1f);
+        //Invoke("SetupScene", 0.1f);
     }
     //SETUP SCENE
     //check that all required scripts and prefabs are in the scene. Set up play area, and reset all variables for a new round
@@ -44,8 +59,47 @@ public class RoundManager : MonoBehaviour
         {
             SpawnPlayer(i);
         }
-        playerScores[players.Length] = 0;
+
+        playerScores[0] = 0;
+        playerScores[1] = 0;
         UIManager.UpdateScoreUI();
+    }
+
+    public void PlayerHealthSetup()
+    {
+        players = GameObject.FindGameObjectsWithTag("Player");
+        playerLivesLeft = new PlayerHealth[players.Length];
+        for (int i = 0; i < players.Length; i++)
+        {
+            playerLivesLeft[i] = players[i].GetComponent<PlayerHealth>();
+        }
+    }
+
+    public void Checking()
+    {
+        if (GameObject.Find("HUDP2") && playerLivesLeft[0].numberOfLivesLeft <= 0 && playerLivesLeft[1].numberOfLivesLeft <= 0)
+        {
+            if (playerScores[0] == playerScores[1])
+            {
+                UIManager.UpdateScoreUI();
+                UIManager.DisplayResultsDraw();
+            }
+
+            else if (playerScores[0] > playerScores[1])
+            {
+                EndRound(1);
+            }
+
+            else if (playerScores[0] < playerScores[1])
+            {
+                EndRound(2);
+            }
+
+        }
+        else if(playerLivesLeft[0].numberOfLivesLeft <= 0)
+        {
+            EndRound(1);
+        }
     }
     //SPAWN PLAYERS
     //takes in a player, finds a random position from the list, and spawns the player in that location.
@@ -115,6 +169,47 @@ public class RoundManager : MonoBehaviour
             UIManager.DisplayResults(WinningPlayer);
             UIManager.UpdateScoreUI();
         }
+    }
+
+    private void FindHUD()
+    {
+        if (GameObject.Find("HUDP1") && GameObject.Find("HUDP2"))
+        {
+            hudManagerP1 = GameObject.Find("HUDP1").GetComponent<HUDManager>();
+            hudManagerP2 = GameObject.Find("HUDP2").GetComponent<HUDManager>();
+            UpdateHUDManager();
+        }
+        else
+        {
+            hudManagerP1 = GameObject.Find("HUDP1").GetComponent<HUDManager>();
+            p2Name.gameObject.SetActive(false);
+            p2Score.gameObject.SetActive(false);
+            UpdateHUDManager();
+        }
+    }
+
+    public void UpdateHUDManager()
+    {
+        if (GameObject.Find("HUDP2"))
+        {
+            hudManagerP1.UpdateHUD();
+            hudManagerP2.UpdateHUD();
+        }
+        else
+        {
+            hudManagerP1.UpdateHUD();
+        }
+    }
+
+    public void GameOver()
+    {
+        hudManagerP1.GameOverHUD();
+        hudManagerP2.GameOverHUD();
+    }
+    public void LevelComplete()
+    {
+        hudManagerP1.LevelCompleteHUD();
+        hudManagerP2.LevelCompleteHUD();
     }
 }
 /*

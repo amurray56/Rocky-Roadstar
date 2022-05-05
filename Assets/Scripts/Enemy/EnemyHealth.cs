@@ -68,7 +68,7 @@ public class EnemyHealth : MonoBehaviour
             Death();
             //Add to the total number of enemies killed
             //GameController.gameController.totalEnemiesKilled++;
-            GameController.gameController.UpdateHUDManager();
+            GameObject.Find("RoundCanvas").GetComponent<RoundManager>().UpdateHUDManager();
         }
     }
 
@@ -80,7 +80,7 @@ public class EnemyHealth : MonoBehaviour
         }
         GetComponent<EnemyAttack>().playerInRange = false;
         isDead = true;
-        GameController.gameController.UpdateHUDManager();
+        GameObject.Find("RoundCanvas").GetComponent<RoundManager>().UpdateHUDManager();
         gameObject.layer = LayerMask.NameToLayer("Ignore Raycast"); //Allows the player to shoot through dead enemies
 
         agent.updatePosition = false; //Stops the enemy from moving

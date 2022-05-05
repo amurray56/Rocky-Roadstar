@@ -6,6 +6,13 @@ public class GameMaster : MonoBehaviour
 {
     GameData saveData = new GameData();
 
+    SaveSystem saveGame;
+
+    private void Awake()
+    {
+        saveGame = GetComponent<SaveSystem>();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -23,12 +30,12 @@ public class GameMaster : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            SaveSystem.instance.SaveGame(saveData);
+            saveGame.SaveGame(saveData);
             Debug.Log("Saved data.");
         }
         if (Input.GetKeyDown(KeyCode.L))
         {
-            saveData = SaveSystem.instance.LoadGame();
+            saveGame.LoadGame();
             Debug.Log("Loaded data");
             PrintScore();
         }

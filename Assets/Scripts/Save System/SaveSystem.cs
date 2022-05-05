@@ -10,6 +10,7 @@ public class SaveSystem : MonoBehaviour
     private void Awake()
     {
         filePath = Application.persistentDataPath + "/save.data";
+        LoadGame();
 
         #region singleton
         if (instance = null)
@@ -18,7 +19,7 @@ public class SaveSystem : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
         #endregion
     }
