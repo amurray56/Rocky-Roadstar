@@ -939,7 +939,8 @@ GameObject:
   - component: {fileID: 696632804526490240}
   - component: {fileID: 696632804526490243}
   - component: {fileID: 696632804526490242}
-  - component: {fileID: 2967764836756679189}
+  - component: {fileID: 2080228872017007553}
+  - component: {fileID: 696632804416546416}
   m_Layer: 5
   m_Name: Scoreboard
   m_TagString: Untagged
@@ -1036,7 +1037,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &2967764836756679189
+--- !u!114 &2080228872017007553
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1045,13 +1046,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 696632804526490245}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce833d3c1fffa754b86a6240b96c9e3c, type: 3}
+  m_Script: {fileID: 11500000, guid: 0558b5f880687c047a918666a75c132a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerName1: {fileID: 696632804447129791}
-  playerName2: {fileID: 696632804603698013}
-  playerScore1: {fileID: 696632803700676944}
-  playerScore2: {fileID: 696632803924847349}
+  highScoreDisplayArray:
+  - {fileID: 696632804414802503}
+  - {fileID: 696632804911605659}
+  - {fileID: 696632803670704145}
+  - {fileID: 696632805329398233}
+  - {fileID: 696632804317260488}
+--- !u!114 &696632804416546416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696632804526490245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c9e8ce780b5cee4e867f997ef50593a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &696632804574437400
 GameObject:
   m_ObjectHideFlags: 0

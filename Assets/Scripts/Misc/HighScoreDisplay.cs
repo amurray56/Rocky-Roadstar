@@ -7,7 +7,7 @@ public class HighScoreDisplay : MonoBehaviour
     public void DisplayHighScore(string name, int score)
     {
         nameText.text = name;
-        scoreText.text = string.Format("{0:000000}", score);
+        scoreText.text = string.Format("{0:000}", score);
     }
     public void HideEntryDisplay()
     {

@@ -34,7 +34,6 @@ public class RoundManager : MonoBehaviour
 
     //list of players
     public GameObject[] players;
-    public PlayerHealth[] playerLivesLeft;
     //list of scores
     public int[] playerScores;
     //list of spawn positions
@@ -47,7 +46,6 @@ public class RoundManager : MonoBehaviour
     {
         Invoke("FindHUD", 0.1f);
         Invoke("UpdateHUDManager", 0.1f);
-        Invoke("PlayerHealthSetup", 0.1f);
         //Invoke("SetupScene", 0.1f);
     }
     //SETUP SCENE
@@ -65,19 +63,9 @@ public class RoundManager : MonoBehaviour
         UIManager.UpdateScoreUI();
     }
 
-    public void PlayerHealthSetup()
-    {
-        players = GameObject.FindGameObjectsWithTag("Player");
-        playerLivesLeft = new PlayerHealth[players.Length];
-        for (int i = 0; i < players.Length; i++)
-        {
-            playerLivesLeft[i] = players[i].GetComponent<PlayerHealth>();
-        }
-    }
-
     public void Checking()
     {
-        if (GameObject.Find("HUDP2") && playerLivesLeft[0].numberOfLivesLeft <= 0 && playerLivesLeft[1].numberOfLivesLeft <= 0)
+        if (GameObject.Find("Player(Clone)").GetComponent<PlayerHealth>().numberOfLivesLeft <= 0 && GameObject.Find("Player2(Clone)").GetComponent<PlayerHealth>().numberOfLivesLeft <= 0)
         {
             if (playerScores[0] == playerScores[1])
             {
@@ -85,18 +73,18 @@ public class RoundManager : MonoBehaviour
                 UIManager.DisplayResultsDraw();
             }
 
-            else if (playerScores[0] > playerScores[1])
+            if (playerScores[0] > playerScores[1])
             {
                 EndRound(1);
             }
 
-            else if (playerScores[0] < playerScores[1])
+            if (playerScores[0] < playerScores[1])
             {
                 EndRound(2);
             }
 
         }
-        else if(playerLivesLeft[0].numberOfLivesLeft <= 0)
+        else if(!GameObject.Find("Player2(Clone)") && GameObject.Find("Player(Clone)").GetComponent<PlayerHealth>().numberOfLivesLeft <= 0)
         {
             EndRound(1);
         }
@@ -136,7 +124,25 @@ public class RoundManager : MonoBehaviour
 
     public void CheckForEnd()
     {
-        if (!GameObject.FindGameObjectWithTag("Coin") && GameObject.FindGameObjectWithTag("Player").GetComponent<CoinValueHeld>().coinValueHeld == 0)
+        if (!GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && GameObject.Find("Player2(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0)
+        {
+            if (playerScores[0] == playerScores[1])
+            {
+                UIManager.UpdateScoreUI();
+                UIManager.DisplayResultsDraw();
+            }
+
+            else if (playerScores[0] > playerScores[1])
+            {
+                EndRound(1);
+            }
+
+            else if (playerScores[0] < playerScores[1])
+            {
+                EndRound(2);
+            }
+        }
+        else if(!GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && !GameObject.Find("Player2(Clone)"))
         {
             if (playerScores[0] == playerScores[1])
             {

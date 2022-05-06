@@ -47,6 +47,11 @@ public class GameController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        P1Name = null;
+        P2Name = null;
+        P1Score = null;
+        P2Score = null;
     }
 
     void PauseTheGame()

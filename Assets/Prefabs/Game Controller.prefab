@@ -45,8 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37b01ee8fc38a4649a2023ad2205302f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hudManagerP1: {fileID: 0}
-  hudManagerP2: {fileID: 0}
+  P1Name: 
+  P2Name: 
+  P1Score: 
+  P2Score: 
   enemies:
   - {fileID: 4493914613880827488, guid: 6dc4cf4496348884d8ee27743ae38562, type: 3}
   gameComplete: 0
