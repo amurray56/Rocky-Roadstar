@@ -124,7 +124,7 @@ public class RoundManager : MonoBehaviour
 
     public void CheckForEnd()
     {
-        if (!GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && GameObject.Find("Player2(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0)
+        if (!GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && !GameObject.Find("Player2(Clone)"))
         {
             if (playerScores[0] == playerScores[1])
             {
@@ -142,7 +142,8 @@ public class RoundManager : MonoBehaviour
                 EndRound(2);
             }
         }
-        else if(!GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && !GameObject.Find("Player2(Clone)"))
+
+        else if(!GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && GameObject.Find("Player2(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0)
         {
             if (playerScores[0] == playerScores[1])
             {
