@@ -78,7 +78,7 @@ public class PlayerHealth : MonoBehaviour
 		isDead = true;
 		playerRigidbody.isKinematic = true;
 
-		GameObject.Find("RoundCanvas").GetComponent<RoundManager>().Checking();
+		GameObject.Find("RoundCanvas").GetComponent<RoundManager>().EndRoundOnDeath();
 		GameObject.Find("RoundCanvas").GetComponent<RoundManager>().CheckForEnd();
 	}
 	//Respawns the player
