@@ -66,6 +66,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -484,6 +485,21 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Default Sprite Asset_2: 21300004
+      Default Sprite Asset_1: 21300002
+      Default Sprite Asset_0: 21300000
+      Default Sprite Asset_5: 21300010
+      Default Sprite Asset_12: 21300020
+      Default Sprite Asset_15: 21300026
+      Default Sprite Asset_14: 21300024
+      Default Sprite Asset_6: 21300012
+      Default Sprite Asset_7: 21300014
+      Default Sprite Asset_4: 21300008
+      Default Sprite Asset_13: 21300022
+      Default Sprite Asset_11: 21300018
+      Default Sprite Asset_8: 21300016
+      Default Sprite Asset_3: 21300006
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

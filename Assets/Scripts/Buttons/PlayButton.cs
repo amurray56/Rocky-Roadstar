@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayButton : MonoBehaviour
 {
-    public GameObject playButton, backButton, fleeButton, multiplayerButton, selectLevelImage, soloLevel1Button, title, coopButton, scoreBoard;
+    public GameObject playButton, backButton, fleeButton, multiplayerButton, selectLevelImage, soloLevel1Button, title, coopButton, scoreBoard, onlineButton, controlPanel, backToMultiplayer;
     private RoundManager roundManager;
     private PlayButton playButtonScript;
 
@@ -37,6 +37,7 @@ public class PlayButton : MonoBehaviour
         title.SetActive(false);
         selectLevelImage.SetActive(true);
         coopButton.SetActive(false);
+        onlineButton.SetActive(false);
     }
 
     public void SelectLevelMultiplayer()
@@ -50,6 +51,25 @@ public class PlayButton : MonoBehaviour
         title.SetActive(false);
         selectLevelImage.SetActive(true);
         coopButton.SetActive(true);
+        onlineButton.SetActive(true);
+        controlPanel.SetActive(false);
+        backToMultiplayer.SetActive(false);
+    }
+
+    public void Online()
+    {
+        playButton.SetActive(false);
+        soloLevel1Button.SetActive(false);
+        multiplayerButton.SetActive(false);
+        fleeButton.SetActive(false);
+        scoreBoard.SetActive(false);
+        backButton.SetActive(false);
+        title.SetActive(false);
+        selectLevelImage.SetActive(false);
+        coopButton.SetActive(false);
+        onlineButton.SetActive(false);
+        controlPanel.SetActive(true);
+        backToMultiplayer.SetActive(true);
     }
 
     public void BackButton()
@@ -63,6 +83,7 @@ public class PlayButton : MonoBehaviour
         title.SetActive(true);
         selectLevelImage.SetActive(false);
         coopButton.SetActive(false);
+        onlineButton.SetActive(false);
     }
 
     public void SinglePlayerLevel1()
