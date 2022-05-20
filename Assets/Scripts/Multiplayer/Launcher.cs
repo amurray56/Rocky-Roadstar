@@ -18,13 +18,13 @@ namespace Anthony.Murray.MyGame
         /// </summary>
         [Tooltip("The maximum number of players per room. When a room is full, it can't be joined by new players, and so new room will be created")]
         [SerializeField]
-        private byte maxPlayersPerRoom = 4;
+        private byte maxPlayersPerRoom = 2;
         [SerializeField]
         private GameObject progressLabel;
         [SerializeField]
         private GameObject controlPanel;
 
-        bool isConnecting;
+        bool isConnecting = false;
 
         #endregion
 
@@ -76,6 +76,7 @@ namespace Anthony.Murray.MyGame
         {
             progressLabel.SetActive(true);
             controlPanel.SetActive(false);
+            
             if (PhotonNetwork.IsConnected)
             {
                 PhotonNetwork.JoinRandomRoom();
@@ -127,14 +128,15 @@ namespace Anthony.Murray.MyGame
             Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
 
             // #Critical: We only load if we are the first player, else we rely on `PhotonNetwork.AutomaticallySyncScene` to sync our instance scene.
-            
-            Debug.Log("We load the 'Room for 1' ");
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+            {
+                Debug.Log("We load the 'Room for 1' ");
 
 
-            // #Critical
-            // Load the Room Level.
-            PhotonNetwork.LoadLevel(1);
-            
+                // #Critical
+                // Load the Room Level.
+                PhotonNetwork.LoadLevel(1);
+            }
         }
 
         #endregion

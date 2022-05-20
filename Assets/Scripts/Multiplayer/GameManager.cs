@@ -41,7 +41,7 @@ namespace Anthony.Murray.MyGame
         #region Private Methods
 
 
-        void LoadArena()
+        public void LoadArena()
         {
             if (!PhotonNetwork.IsMasterClient)
             {
