@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class PoolManager : MonoBehaviour
 {
@@ -19,23 +20,26 @@ public class PoolManager : MonoBehaviour
 	// Use this for initialization of the objects in the collectionOfObjectsToBePooled array 
 	public void Start()
 	{
-		//loops through the collectionOfObjectsToBePooled pooled array
-		for (int i = 0; i < collectionOfObjectsToBePooled.Length; i++)
-		{
-			List<GameObject> pooledObjects;
-			pooledObjects = new List<GameObject>();
-			//loops through the pooledAmountForEachObject pooled array
-			for (int j = 0; j < pooledAmountForEachObject[i]; j++)
+		if(!PhotonNetwork.IsConnected)
+        {
+			//loops through the collectionOfObjectsToBePooled pooled array
+			for (int i = 0; i < collectionOfObjectsToBePooled.Length; i++)
 			{
-				GameObject obj = Instantiate(collectionOfObjectsToBePooled[i]); //Creates the object in the scene
-				obj.SetActive(false);
-				pooledObjects.Add(obj); //Adds the newly created object to an array so it can be stored in a Dictionary
+				List<GameObject> pooledObjects;
+				pooledObjects = new List<GameObject>();
+				//loops through the pooledAmountForEachObject pooled array
+				for (int j = 0; j < pooledAmountForEachObject[i]; j++)
+				{
+					GameObject obj = Instantiate(collectionOfObjectsToBePooled[i]); //Creates the object in the scene
+					obj.SetActive(false);
+					pooledObjects.Add(obj); //Adds the newly created object to an array so it can be stored in a Dictionary
+				}
+				//Adds the list of the same objects that are stored in the pooledObjects array to a Dictionary under the name of the oject.
+				//eg. Under the Dictionary key "spider" we store an array with 10 spider game objects
+				//eg. Under the Dictionary key "health" we store an array with 4 health pack game objects
+				//eg. Under the Dictionary key "ammo" we store an array with 12 ammo pack game objects
+				poolerData.Add(collectionOfObjectsToBePooled[i].name, pooledObjects);
 			}
-			//Adds the list of the same objects that are stored in the pooledObjects array to a Dictionary under the name of the oject.
-			//eg. Under the Dictionary key "spider" we store an array with 10 spider game objects
-			//eg. Under the Dictionary key "health" we store an array with 4 health pack game objects
-			//eg. Under the Dictionary key "ammo" we store an array with 12 ammo pack game objects
-			poolerData.Add(collectionOfObjectsToBePooled[i].name, pooledObjects);
 		}
 	}
 

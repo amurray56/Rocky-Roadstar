@@ -163,7 +163,7 @@ public class RoundManager : MonoBehaviour
         }
     }
 
-    private void FindHUD()
+    public void FindHUD()
     {
         if (GameObject.Find("HUDP1") && GameObject.Find("HUDP2"))
         {

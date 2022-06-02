@@ -114,28 +114,21 @@ public class Launcher : MonoBehaviourPunCallbacks
         PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
     }
 
+    
     public override void OnJoinedRoom()
     {
         Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
 
         // #Critical: We only load if we are the first player, else we rely on `PhotonNetwork.AutomaticallySyncScene` to sync our instance scene.
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+        if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
         {
             Debug.Log("We load the 'Room for 1' ");
 
             // #Critical
             // Load the Room Level.
-
-            //gameManager.CreatePlayerOne();
-            gameManager.CreatePlayerOne();
             PhotonNetwork.LoadLevel(1);
-        }
-        else if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
-        {
-            gameManager.CreatePlayerTwo();
-        }
-        
+        } 
     }
-
+    
     #endregion
 }

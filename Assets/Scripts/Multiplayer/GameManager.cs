@@ -13,7 +13,11 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void Start()
     {
-        
+        if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
+            CreatePlayerOne();
+
+        if(PhotonNetwork.LocalPlayer.ActorNumber == 2)
+            CreatePlayerTwo();
     }
 
     #region Photon Callbacks
@@ -35,7 +39,10 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void LeaveRoom()
     {
-        PhotonNetwork.LeaveRoom();
+        if (PhotonNetwork.IsConnected)
+            PhotonNetwork.LeaveRoom();
+        else
+            SceneManager.LoadScene(0);
     }
 
     #endregion
@@ -95,6 +102,9 @@ public class GameManager : MonoBehaviourPunCallbacks
                 Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
                 // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
                 PhotonNetwork.Instantiate(playerPrefabP1.name, new Vector3(279.276f, 1.206f, 244.5951f), Quaternion.identity, 0);
+                GameObject.Find("Player(Clone)").GetComponentInChildren<Camera>().rect = new Rect(0, 0, 1, 1);
+                GameObject.Find("RoundCanvas").GetComponent<RoundManager>().FindHUD();
+                GameObject.Find("RoundCanvas").GetComponent<RoundManager>().UpdateHUDManager();
             }
             else
             {
@@ -119,7 +129,8 @@ public class GameManager : MonoBehaviourPunCallbacks
                 // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
                 PhotonNetwork.Instantiate(playerPrefabP2.name, new Vector3(339.62f, 1.206f, 489.66f), Quaternion.identity, 0);
                 GameObject.Find("Player2(Clone)").GetComponentInChildren<Camera>().rect = new Rect(0, 0, 1, 1);
-                PhotonNetwork.GetPhotonView(2);
+                GameObject.Find("RoundCanvas").GetComponent<RoundManager>().FindHUD();
+                GameObject.Find("RoundCanvas").GetComponent<RoundManager>().UpdateHUDManager();
             }
             else
             {

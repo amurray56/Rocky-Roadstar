@@ -24,7 +24,6 @@ public class SpawnerManager : MonoBehaviour
 
     //General
     private int enemycount;
-    private GameObject player;
     private bool enableSpawner = true;
 
     public void OnDrawGizmos()
@@ -52,7 +51,6 @@ public class SpawnerManager : MonoBehaviour
     public void Start()
     {
         SetUpChildObjects();
-        player = GameObject.FindGameObjectWithTag("Player");
         InvokeRepeating("checkIfObjectShouldBeSpawned", spawnTime, spawnTime);
     }
     //Checks the setup child elements in the spawner
