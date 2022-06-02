@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class PlayerHealth : MonoBehaviour
 {
+	[Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
+	public static GameObject LocalPlayerInstance;
 	//Setup
 	private Rigidbody playerRigidbody;
 	//private AudioSource playerAudio;
@@ -11,6 +14,7 @@ public class PlayerHealth : MonoBehaviour
 	public bool noDamage = false;
 	private NewMovementControl cm;
 	private HUDManager hUDManager;
+	private PhotonView photonView;
 
 	//Settings
 	public float playerHealthAmount = 100; //Players Health
@@ -29,6 +33,15 @@ public class PlayerHealth : MonoBehaviour
 		cm = GetComponent<NewMovementControl>();
 		playerHealthAmount = 100;
 		hUDManager = GetComponentInChildren<HUDManager>();
+		photonView = GetComponent<PhotonView>();
+
+		if (photonView.IsMine)
+		{
+			LocalPlayerInstance = gameObject;
+		}
+		// #Critical
+		// we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
+		DontDestroyOnLoad(gameObject);
 	}
 
 	public void Update()

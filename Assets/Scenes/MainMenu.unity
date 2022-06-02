@@ -426,6 +426,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Controller
       objectReference: {fileID: 0}
+    - target: {fileID: 6619802158719677382, guid: b77d8e448a624a341a94108736d11e0f, type: 3}
+      propertyPath: playerPrefab
+      value: 
+      objectReference: {fileID: 5580050942606242737, guid: beded88a7c7456c4b8ce0badee868cdd, type: 3}
+    - target: {fileID: 6619802158719677382, guid: b77d8e448a624a341a94108736d11e0f, type: 3}
+      propertyPath: playerPrefabP1
+      value: 
+      objectReference: {fileID: 5580050942606242737, guid: beded88a7c7456c4b8ce0badee868cdd, type: 3}
+    - target: {fileID: 6619802158719677382, guid: b77d8e448a624a341a94108736d11e0f, type: 3}
+      propertyPath: playerPrefabP2
+      value: 
+      objectReference: {fileID: 5580050942606242737, guid: cd21ec89fd3538844b66ab11309abcf2, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b77d8e448a624a341a94108736d11e0f, type: 3}
 --- !u!1 &233716554
@@ -2116,7 +2128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba5fd3c3bb5471f4facfcfe4497f8d26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxPlayersPerRoom: 1
+  maxPlayersPerRoom: 2
   progressLabel: {fileID: 1106202889}
   controlPanel: {fileID: 142061685}
 --- !u!1 &1018006397
