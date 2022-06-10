@@ -1728,9 +1728,9 @@ GameObject:
   - component: {fileID: 466652988}
   - component: {fileID: 5425899379786036597}
   - component: {fileID: 497715562633280757}
-  - component: {fileID: 2835972708721220394}
-  - component: {fileID: 5347912053509312869}
-  - component: {fileID: 7356790825432258195}
+  - component: {fileID: 8733551216684490515}
+  - component: {fileID: -5006595787275180241}
+  - component: {fileID: 3752713785086680363}
   m_Layer: 0
   m_Name: Zombie1
   m_TagString: Enemy
@@ -1916,7 +1916,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 30
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &2835972708721220394
+--- !u!114 &8733551216684490515
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1932,7 +1932,7 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!114 &5347912053509312869
+--- !u!114 &-5006595787275180241
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1965,7 +1965,7 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
---- !u!114 &7356790825432258195
+--- !u!114 &3752713785086680363
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1984,8 +1984,8 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 2835972708721220394}
-  - {fileID: 5347912053509312869}
+  - {fileID: 8733551216684490515}
+  - {fileID: -5006595787275180241}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

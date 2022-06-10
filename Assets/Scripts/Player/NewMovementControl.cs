@@ -95,7 +95,7 @@ public class NewMovementControl : MonoBehaviour
             }
         }
 
-        if (playerNum == 1)
+        if (playerNum == 1 && !PhotonNetwork.IsConnected)
         {
             if (Input.GetKey(KeyCode.Keypad8))
             {

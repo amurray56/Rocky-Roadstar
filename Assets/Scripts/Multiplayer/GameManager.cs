@@ -10,13 +10,14 @@ public class GameManager : MonoBehaviourPunCallbacks
     [Tooltip("The prefab to use for representing the player")]
     public GameObject playerPrefabP1;
     public GameObject playerPrefabP2;
+    public GameObject zombie;
 
     public void Start()
     {
         if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
             CreatePlayerOne();
 
-        if(PhotonNetwork.LocalPlayer.ActorNumber == 2)
+        if (PhotonNetwork.LocalPlayer.ActorNumber == 2)
             CreatePlayerTwo();
     }
 
@@ -77,7 +78,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player other)
     {
         Debug.Log("OnPlayerLeftRoom() {0}" + other.NickName); // seen when other disconnects
-        
+
         if (PhotonNetwork.IsMasterClient)
         {
             Debug.Log("OnPlayerLeftRoom IsMasterClient {0}" + PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom

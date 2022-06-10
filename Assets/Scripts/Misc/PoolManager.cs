@@ -22,7 +22,6 @@ public class PoolManager : MonoBehaviour
 	{
 		if(!PhotonNetwork.IsConnected)
         {
-			//loops through the collectionOfObjectsToBePooled pooled array
 			for (int i = 0; i < collectionOfObjectsToBePooled.Length; i++)
 			{
 				List<GameObject> pooledObjects;
@@ -34,10 +33,23 @@ public class PoolManager : MonoBehaviour
 					obj.SetActive(false);
 					pooledObjects.Add(obj); //Adds the newly created object to an array so it can be stored in a Dictionary
 				}
-				//Adds the list of the same objects that are stored in the pooledObjects array to a Dictionary under the name of the oject.
-				//eg. Under the Dictionary key "spider" we store an array with 10 spider game objects
-				//eg. Under the Dictionary key "health" we store an array with 4 health pack game objects
-				//eg. Under the Dictionary key "ammo" we store an array with 12 ammo pack game objects
+				poolerData.Add(collectionOfObjectsToBePooled[i].name, pooledObjects);
+			}
+		}
+
+		if(PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
+        {
+			for (int i = 0; i < collectionOfObjectsToBePooled.Length; i++)
+			{
+				List<GameObject> pooledObjects;
+				pooledObjects = new List<GameObject>();
+				//loops through the pooledAmountForEachObject pooled array
+				for (int j = 0; j < pooledAmountForEachObject[i]; j++)
+				{
+					GameObject obj = PhotonNetwork.Instantiate(collectionOfObjectsToBePooled[i].name, new Vector3(0, 0, 0), Quaternion.identity); //Creates the object in the scene
+					obj.SetActive(false);
+					pooledObjects.Add(obj); //Adds the newly created object to an array so it can be stored in a Dictionary
+				}
 				poolerData.Add(collectionOfObjectsToBePooled[i].name, pooledObjects);
 			}
 		}
@@ -58,13 +70,30 @@ public class PoolManager : MonoBehaviour
 			}
 		}
 		//If a non active version of an object is not available a new one is created and added to the Dictionary for future use
-		if (willGrow)
+		if (!PhotonNetwork.IsConnected)
 		{
-			GameObject obj = Instantiate(poolerData[nameOfPooledObject][0]);
-			obj.transform.position = new Vector3(0, 0, 0);
-			obj.SetActive(false);
-			poolerData[nameOfPooledObject].Add(obj);
-			return obj;
+			if (willGrow)
+			{
+				GameObject obj = Instantiate(poolerData[nameOfPooledObject][0]);
+				obj.transform.position = new Vector3(0, 0, 0);
+				obj.SetActive(false);
+				poolerData[nameOfPooledObject].Add(obj);
+				return obj;
+			}
+
+			return null;
+		}
+		else if (PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
+        {
+			if (willGrow)
+			{
+				GameObject obj = PhotonNetwork.Instantiate(poolerData[nameOfPooledObject][0].name, new Vector3(0, 0, 0), Quaternion.identity);
+				obj.SetActive(false);
+				poolerData[nameOfPooledObject].Add(obj);
+				return obj;
+			}
+
+			return null;
 		}
 		return null;
 	}

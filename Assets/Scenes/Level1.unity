@@ -5117,6 +5117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefabP1: {fileID: 5580050942606242737, guid: beded88a7c7456c4b8ce0badee868cdd, type: 3}
   playerPrefabP2: {fileID: 5580050942606242737, guid: cd21ec89fd3538844b66ab11309abcf2, type: 3}
+  zombie: {fileID: 0}
 --- !u!4 &1999047080
 Transform:
   m_ObjectHideFlags: 0

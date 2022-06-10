@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class SpawnerManager : MonoBehaviour
 {
@@ -50,33 +51,36 @@ public class SpawnerManager : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
-        SetUpChildObjects();
-        InvokeRepeating("checkIfObjectShouldBeSpawned", spawnTime, spawnTime);
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
+        {
+            SetUpChildObjects();
+            InvokeRepeating("checkIfObjectShouldBeSpawned", spawnTime, spawnTime);
+        }
     }
     //Checks the setup child elements in the spawner
     public void SetUpChildObjects()
     {
-        //Adds Spawn Points and Waypoints to their appropriate lists
-        foreach (Transform child in transform)
-        {
-            if (child.tag == "Waypoint")
+            //Adds Spawn Points and Waypoints to their appropriate lists
+            foreach (Transform child in transform)
             {
-                waypoints.Add(child);
+                if (child.tag == "Waypoint")
+                {
+                    waypoints.Add(child);
+                }
+                if (child.tag == "SpawnPoint")
+                {
+                    spawnPoints.Add(child);
+                }
+                //If enableSpawnerByTrigger is false, destroy all Spawntrigger children
+                if (child.tag == "SpawnTrigger" && enableSpawnerByTrigger == false)
+                {
+                    Destroy((child).gameObject); //The SpawnTrigger Child can not be destroyed as a transform so it needs to be referenced
+                }
+                else if (child.tag == "SpawnTrigger" && enableSpawnerByTrigger == true)
+                {
+                    enableSpawner = false; //Disables the spawner if the user wished to use a trigger to enable the spawner.
+                }
             }
-            if (child.tag == "SpawnPoint")
-            {
-                spawnPoints.Add(child);
-            }
-            //If enableSpawnerByTrigger is false, destroy all Spawntrigger children
-            if (child.tag == "SpawnTrigger" && enableSpawnerByTrigger == false)
-            {
-                Destroy((child).gameObject); //The SpawnTrigger Child can not be destroyed as a transform so it needs to be referenced
-            }
-            else if (child.tag == "SpawnTrigger" && enableSpawnerByTrigger == true)
-            {
-                enableSpawner = false; //Disables the spawner if the user wished to use a trigger to enable the spawner.
-            }
-        }
     }
     //If we are using trigger to enable the spawner. The spawner is enabled when the player triggers it
     public void OnTriggerEnter(Collider other)
@@ -94,22 +98,22 @@ public class SpawnerManager : MonoBehaviour
     public void checkIfObjectShouldBeSpawned()
     //Allows us to disable and enable the spawner
     {
-        if (enableSpawner == true && !HUDManager.gamePaused)
-        {
-            //If we have not reached the limit of enemies from this spawner
-            if (enemiesFromThisSpawnerList.Count < maxNumberOfEnemiesAtOneTime && enemycount < maxNumberOfEnemiesOtherSpawnerLifeTime)
+            if (enableSpawner == true && !HUDManager.gamePaused)
             {
-                EnemySetActive();
+                //If we have not reached the limit of enemies from this spawner
+                if (enemiesFromThisSpawnerList.Count < maxNumberOfEnemiesAtOneTime && enemycount < maxNumberOfEnemiesOtherSpawnerLifeTime)
+                {
+                    EnemySetActive();
+                }
+                //If we have reached the max number of enemies and all the enemies from this spawner are dead
+                else if (enemiesFromThisSpawnerList.Count == 0 && enemycount >= maxNumberOfEnemiesOtherSpawnerLifeTime)
+                {
+                    DestroySpawner();
+                }
             }
-            //If we have reached the max number of enemies and all the enemies from this spawner are dead
-            else if (enemiesFromThisSpawnerList.Count == 0 && enemycount >= maxNumberOfEnemiesOtherSpawnerLifeTime)
-            {
-                DestroySpawner();
-            }
-        }
     }
     //When this function is called, an enemy is instantiated
-    void EnemySetActive()
+    public void EnemySetActive()
     {
         //If the distance between the spawn position and the player position is bigger than 15
         //if (Vector3.Distance(spawnPoints[0].position, player.transform.position) > distancePlayerMustBeFromSpawnerBeforeSpawnerInstantiates)
@@ -138,6 +142,7 @@ public class SpawnerManager : MonoBehaviour
             GameController.gameController.enemies.Add(returnedGameObject);
         //}
     }
+
     void DestroySpawner()
     {
             Destroy(gameObject); //Not using Gamecontroller.gamecontroller.SpawnerDestroyed(gameObject);

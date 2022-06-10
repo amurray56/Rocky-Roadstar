@@ -120,14 +120,12 @@ public class Launcher : MonoBehaviourPunCallbacks
         Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
 
         // #Critical: We only load if we are the first player, else we rely on `PhotonNetwork.AutomaticallySyncScene` to sync our instance scene.
-        if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
-        {
             Debug.Log("We load the 'Room for 1' ");
 
-            // #Critical
-            // Load the Room Level.
+        // #Critical
+        // Load the Room Level.
+        PhotonNetwork.AutomaticallySyncScene = true;
             PhotonNetwork.LoadLevel(1);
-        } 
     }
     
     #endregion
