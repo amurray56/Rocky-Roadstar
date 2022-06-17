@@ -16,7 +16,7 @@ public class SpawnerManager : MonoBehaviour
     public bool enableSpawnerByTrigger = false;
 
     //Lists
-    private List<Transform> spawnPoints = new List<Transform>(); //List for spawnpoints
+    public List<Transform> spawnPoints = new List<Transform>(); //List for spawnpoints
     [HideInInspector]
     public List<Transform> waypoints = new List<Transform>(); //List for waypoints
     //List for enemies this spawner has created that are still alive
@@ -124,10 +124,7 @@ public class SpawnerManager : MonoBehaviour
     //When this function is called, an enemy is instantiated
     public void EnemySetActive()
     {
-        //If the distance between the spawn position and the player position is bigger than 15
-        //if (Vector3.Distance(spawnPoints[0].position, player.transform.position) > distancePlayerMustBeFromSpawnerBeforeSpawnerInstantiates)
-        //{
-        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
+        if (!PhotonNetwork.IsConnected)
         {
             enemycount++; //adds one to the enemycount
             int a = Random.Range(0, spawnPoints.Count);
@@ -152,7 +149,6 @@ public class SpawnerManager : MonoBehaviour
             //Adds the enemy to the main enemy list in the GameController
             GameController.gameController.enemies.Add(returnedGameObject);
         }
-        //}
     }
 
     void DestroySpawner()

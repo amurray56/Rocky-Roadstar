@@ -23,6 +23,8 @@ public class EnemyMovement : MonoBehaviour
     private Rigidbody enemyRigidbody;
     private Animator anim;
     private EnemyHealth enemyHealth;
+    private PhotonView photonView;
+    public static GameObject localZombieInstance;
 
     //Waypoints
     public float enemyWaypointSpeed = 3f;
@@ -42,6 +44,7 @@ public class EnemyMovement : MonoBehaviour
             enemyHealth = GetComponent<EnemyHealth>();
             convergeOnPlayer = false;
             //Invoke("FindPlayer", 1f);
+            localZombieInstance = gameObject;
         }
     }
 

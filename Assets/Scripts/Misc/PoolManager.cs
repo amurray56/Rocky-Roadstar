@@ -9,7 +9,6 @@ public class PoolManager : MonoBehaviour
 	public GameObject[] collectionOfObjectsToBePooled;      //Collection of object to be pooled
 	public int[] pooledAmountForEachObject;                 //Number of objects to be pooled
 	public bool willGrow = true;                            //If this variable is set to true it will allow the poller to create a new object if one is not avaliable in the pool
-	private PhotonView zombieView;
 
 	private Dictionary<string, List<GameObject>> poolerData = new Dictionary<string, List<GameObject>>();
 
@@ -33,26 +32,6 @@ public class PoolManager : MonoBehaviour
 					GameObject obj = Instantiate(collectionOfObjectsToBePooled[i]); //Creates the object in the scene
 					obj.SetActive(false);
 					pooledObjects.Add(obj); //Adds the newly created object to an array so it can be stored in a Dictionary
-				}
-				poolerData.Add(collectionOfObjectsToBePooled[i].name, pooledObjects);
-			}
-		}
-
-        
-		else if(PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
-        {
-			for (int i = 0; i < collectionOfObjectsToBePooled.Length; i++)
-			{
-				List<GameObject> pooledObjects;
-				pooledObjects = new List<GameObject>();
-				//loops through the pooledAmountForEachObject pooled array
-				for (int j = 0; j < pooledAmountForEachObject[i]; j++)
-				{
-					//Creates the object in the scene
-					GameObject obj = PhotonNetwork.InstantiateRoomObject(collectionOfObjectsToBePooled[i].name, new Vector3(0, 0, 0), Quaternion.identity);
-					obj.SetActive(false);
-					pooledObjects.Add(obj);
-					//Adds the newly created object to an array so it can be stored in a Dictionary
 				}
 				poolerData.Add(collectionOfObjectsToBePooled[i].name, pooledObjects);
 			}
@@ -81,17 +60,6 @@ public class PoolManager : MonoBehaviour
 			{
 				GameObject obj = Instantiate(poolerData[nameOfPooledObject][0]);
 				obj.transform.position = new Vector3(0, 0, 0);
-				obj.SetActive(false);
-				poolerData[nameOfPooledObject].Add(obj);
-				return obj;
-			}
-		}
-
-		else
-        {
-			if (willGrow)
-			{
-				GameObject obj = PhotonNetwork.InstantiateRoomObject(poolerData[nameOfPooledObject][0].name, new Vector3(0, 0, 0), Quaternion.identity);
 				obj.SetActive(false);
 				poolerData[nameOfPooledObject].Add(obj);
 				return obj;
