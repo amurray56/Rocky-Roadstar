@@ -9,6 +9,7 @@ public class PoolManager : MonoBehaviour
 	public GameObject[] collectionOfObjectsToBePooled;      //Collection of object to be pooled
 	public int[] pooledAmountForEachObject;                 //Number of objects to be pooled
 	public bool willGrow = true;                            //If this variable is set to true it will allow the poller to create a new object if one is not avaliable in the pool
+	private PhotonView zombieView;
 
 	private Dictionary<string, List<GameObject>> poolerData = new Dictionary<string, List<GameObject>>();
 
@@ -17,7 +18,7 @@ public class PoolManager : MonoBehaviour
 		current = this;
 	}
 
-	// Use this for initialization of the objects in the collectionOfObjectsToBePooled array 
+    // Use this for initialization of the objects in the collectionOfObjectsToBePooled array
 	public void Start()
 	{
 		if(!PhotonNetwork.IsConnected)
@@ -37,7 +38,8 @@ public class PoolManager : MonoBehaviour
 			}
 		}
 
-		if(PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
+        
+		else if(PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
         {
 			for (int i = 0; i < collectionOfObjectsToBePooled.Length; i++)
 			{
@@ -46,9 +48,11 @@ public class PoolManager : MonoBehaviour
 				//loops through the pooledAmountForEachObject pooled array
 				for (int j = 0; j < pooledAmountForEachObject[i]; j++)
 				{
-					GameObject obj = PhotonNetwork.Instantiate(collectionOfObjectsToBePooled[i].name, new Vector3(0, 0, 0), Quaternion.identity); //Creates the object in the scene
+					//Creates the object in the scene
+					GameObject obj = PhotonNetwork.InstantiateRoomObject(collectionOfObjectsToBePooled[i].name, new Vector3(0, 0, 0), Quaternion.identity);
 					obj.SetActive(false);
-					pooledObjects.Add(obj); //Adds the newly created object to an array so it can be stored in a Dictionary
+					pooledObjects.Add(obj);
+					//Adds the newly created object to an array so it can be stored in a Dictionary
 				}
 				poolerData.Add(collectionOfObjectsToBePooled[i].name, pooledObjects);
 			}
@@ -69,6 +73,7 @@ public class PoolManager : MonoBehaviour
 				return poolerData[nameOfPooledObject][i]; //Returns the first nonactive game object
 			}
 		}
+
 		//If a non active version of an object is not available a new one is created and added to the Dictionary for future use
 		if (!PhotonNetwork.IsConnected)
 		{
@@ -80,21 +85,19 @@ public class PoolManager : MonoBehaviour
 				poolerData[nameOfPooledObject].Add(obj);
 				return obj;
 			}
-
-			return null;
 		}
-		else if (PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
+
+		else
         {
 			if (willGrow)
 			{
-				GameObject obj = PhotonNetwork.Instantiate(poolerData[nameOfPooledObject][0].name, new Vector3(0, 0, 0), Quaternion.identity);
+				GameObject obj = PhotonNetwork.InstantiateRoomObject(poolerData[nameOfPooledObject][0].name, new Vector3(0, 0, 0), Quaternion.identity);
 				obj.SetActive(false);
 				poolerData[nameOfPooledObject].Add(obj);
 				return obj;
 			}
-
-			return null;
 		}
+
 		return null;
 	}
 }

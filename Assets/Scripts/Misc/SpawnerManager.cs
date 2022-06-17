@@ -29,22 +29,25 @@ public class SpawnerManager : MonoBehaviour
 
     public void OnDrawGizmos()
     {
-        foreach (Transform child in transform)
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
         {
-            if (child.tag == "Waypoint")
+            foreach (Transform child in transform)
             {
-                Gizmos.color = Color.yellow;
-                Gizmos.DrawSphere(child.position, .8f);
-            }
-            if (child.tag == "SpawnPoint")
-            {
-                Gizmos.color = Color.red;
-                Gizmos.DrawSphere(child.position, .8f);
-            }
-            if (child.tag == "SpawnTrigger")
-            {
-                Gizmos.color = Color.blue;
-                Gizmos.DrawCube(child.position, child.transform.localScale);
+                if (child.tag == "Waypoint")
+                {
+                    Gizmos.color = Color.yellow;
+                    Gizmos.DrawSphere(child.position, .8f);
+                }
+                if (child.tag == "SpawnPoint")
+                {
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawSphere(child.position, .8f);
+                }
+                if (child.tag == "SpawnTrigger")
+                {
+                    Gizmos.color = Color.blue;
+                    Gizmos.DrawCube(child.position, child.transform.localScale);
+                }
             }
         }
     }
@@ -60,6 +63,8 @@ public class SpawnerManager : MonoBehaviour
     //Checks the setup child elements in the spawner
     public void SetUpChildObjects()
     {
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
+        {
             //Adds Spawn Points and Waypoints to their appropriate lists
             foreach (Transform child in transform)
             {
@@ -81,6 +86,7 @@ public class SpawnerManager : MonoBehaviour
                     enableSpawner = false; //Disables the spawner if the user wished to use a trigger to enable the spawner.
                 }
             }
+        }
     }
     //If we are using trigger to enable the spawner. The spawner is enabled when the player triggers it
     public void OnTriggerEnter(Collider other)
@@ -98,6 +104,8 @@ public class SpawnerManager : MonoBehaviour
     public void checkIfObjectShouldBeSpawned()
     //Allows us to disable and enable the spawner
     {
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
+        {
             if (enableSpawner == true && !HUDManager.gamePaused)
             {
                 //If we have not reached the limit of enemies from this spawner
@@ -111,6 +119,7 @@ public class SpawnerManager : MonoBehaviour
                     DestroySpawner();
                 }
             }
+        }
     }
     //When this function is called, an enemy is instantiated
     public void EnemySetActive()
@@ -118,6 +127,8 @@ public class SpawnerManager : MonoBehaviour
         //If the distance between the spawn position and the player position is bigger than 15
         //if (Vector3.Distance(spawnPoints[0].position, player.transform.position) > distancePlayerMustBeFromSpawnerBeforeSpawnerInstantiates)
         //{
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
+        {
             enemycount++; //adds one to the enemycount
             int a = Random.Range(0, spawnPoints.Count);
             //Set a to a random spawn position
@@ -140,6 +151,7 @@ public class SpawnerManager : MonoBehaviour
             enemiesFromThisSpawnerList.Add(returnedGameObject); //Adds enemy count to the enemiesFromThisSpawnerList
             //Adds the enemy to the main enemy list in the GameController
             GameController.gameController.enemies.Add(returnedGameObject);
+        }
         //}
     }
 

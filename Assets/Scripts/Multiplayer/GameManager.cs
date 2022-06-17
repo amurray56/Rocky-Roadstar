@@ -10,14 +10,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     [Tooltip("The prefab to use for representing the player")]
     public GameObject playerPrefabP1;
     public GameObject playerPrefabP2;
-    public GameObject zombie;
 
     public void Start()
     {
         if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
             CreatePlayerOne();
 
-        if (PhotonNetwork.LocalPlayer.ActorNumber == 2)
+        else if (PhotonNetwork.LocalPlayer.ActorNumber == 2)
             CreatePlayerTwo();
     }
 
@@ -57,7 +56,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             Debug.Log("PhotonNetwork : Trying to Load a level but we are not the master Client");
         }
         Debug.Log("PhotonNetwork : Loading Level : {0}" + PhotonNetwork.CurrentRoom.PlayerCount);
-        PhotonNetwork.LoadLevel(1);
+        //PhotonNetwork.LoadLevel(1);
     }
 
     #endregion
@@ -94,11 +93,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'", this);
         }
+
         else
         {
             Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManager.GetActiveScene());
             // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-            if (PlayerHealth.LocalPlayerInstance == null)
+            if (PlayerHealth.localPlayerInstance == null)
             {
                 Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
                 // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
@@ -120,11 +120,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'", this);
         }
+
         else
         {
             Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManager.GetActiveScene());
             // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-            if (PlayerHealth.LocalPlayerInstance == null)
+            if (PlayerHealth.localPlayerInstance == null)
             {
                 Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
                 // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate

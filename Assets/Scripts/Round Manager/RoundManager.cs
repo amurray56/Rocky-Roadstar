@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Photon.Pun;
 
 public class RoundManager : MonoBehaviour
 {
@@ -21,13 +22,16 @@ public class RoundManager : MonoBehaviour
     private void Awake()
     {
         #region Singleton pattern
-        if(instance != null)
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
         {
-            Destroy(gameObject);
-        }
-        else
-        {
-            instance = this;
+            if (instance != null)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                instance = this;
+            }
         }
         #endregion
     }
@@ -53,14 +57,17 @@ public class RoundManager : MonoBehaviour
     //run the spawn players function for each player
     public void SetupScene()
     {
-        for(int i = 1; i < players.Length+1; i++)
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
         {
-            SpawnPlayer(i);
-        }
+            for (int i = 1; i < players.Length + 1; i++)
+            {
+                SpawnPlayer(i);
+            }
 
-        playerScores[0] = 0;
-        playerScores[1] = 0;
-        UIManager.UpdateScoreUI();
+            playerScores[0] = 0;
+            playerScores[1] = 0;
+            UIManager.UpdateScoreUI();
+        }
     }
 
     public void EndRoundOnDeath()
@@ -92,15 +99,18 @@ public class RoundManager : MonoBehaviour
     //takes in a player, finds a random position from the list, and spawns the player in that location.
     public void SpawnPlayer(int playerNumber)
     {
-        var player = Instantiate(players[playerNumber-1], spawnPositions[playerNumber-1].position, players[playerNumber-1].transform.rotation);
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
+        {
+            var player = Instantiate(players[playerNumber - 1], spawnPositions[playerNumber - 1].position, players[playerNumber - 1].transform.rotation);
 
-        var playerInputs = player.GetComponent<PlayerInputs>();
-        playerInputs.playerNum = playerNumber-1;
-        playerInputs.DetermineInputs();
+            var playerInputs = player.GetComponent<PlayerInputs>();
+            playerInputs.playerNum = playerNumber - 1;
+            playerInputs.DetermineInputs();
 
-        var playerHealth = player.GetComponent<PlayerHealth>();
-        playerHealth.noDamage = false;
-        playerHealth.Invoke("ResetDamage", 2f);
+            var playerHealth = player.GetComponent<PlayerHealth>();
+            playerHealth.noDamage = false;
+            playerHealth.Invoke("ResetDamage", 2f);
+        }
     }
     //UPDATE SCORE
     // increments or decrements the score of a player, then checks all player scores to see if someone has won.

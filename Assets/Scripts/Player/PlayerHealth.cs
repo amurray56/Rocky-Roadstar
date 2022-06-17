@@ -6,7 +6,7 @@ using Photon.Pun;
 public class PlayerHealth : MonoBehaviour
 {
 	[Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
-	public static GameObject LocalPlayerInstance;
+	public static GameObject localPlayerInstance;
 	//Setup
 	private Rigidbody playerRigidbody;
 	//private AudioSource playerAudio;
@@ -37,7 +37,7 @@ public class PlayerHealth : MonoBehaviour
 
 		if (photonView.IsMine)
 		{
-			LocalPlayerInstance = gameObject;
+			localPlayerInstance = gameObject;
 		}
 		// #Critical
 		// we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.

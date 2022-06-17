@@ -23,7 +23,6 @@ public class Launcher : MonoBehaviourPunCallbacks
     private GameObject controlPanel;
     
     bool isConnecting = false;
-    private GameManager gameManager;
 
     #endregion
 
@@ -47,7 +46,6 @@ public class Launcher : MonoBehaviourPunCallbacks
         // #Critical
         // this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
         PhotonNetwork.AutomaticallySyncScene = true;
-        gameManager = GameObject.Find("Game Controller").GetComponent<GameManager>();
     }
 
     /// <summary>
@@ -124,8 +122,8 @@ public class Launcher : MonoBehaviourPunCallbacks
 
         // #Critical
         // Load the Room Level.
-        PhotonNetwork.AutomaticallySyncScene = true;
-            PhotonNetwork.LoadLevel(1);
+        if(PhotonNetwork.IsMasterClient)
+        PhotonNetwork.LoadLevel(1);
     }
     
     #endregion
