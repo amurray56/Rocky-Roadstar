@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Photon.Pun;
 
 public class NewMovementControl : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class NewMovementControl : MonoBehaviour
     private Animator anim;
     public float jumpForce = 1;
     public int playerNum;
+    PhotonView pv;
+    public GameObject playerCam;
 
     // Start is called before the first frame update
     void Start()
@@ -18,12 +21,27 @@ public class NewMovementControl : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         playerNum = GetComponent<PlayerInputs>().playerNum;
+        pv = GetComponent<PhotonView>();
+
+        if (PhotonNetwork.IsConnected) 
+        {
+            if (!pv.IsMine)
+                playerCam.SetActive(false);
+        }
+        
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(playerNum == 0)
+        if (PhotonNetwork.IsConnected)
+        {
+            if (!pv.IsMine)
+                return;
+        }
+        
+
+        if(playerNum == 0 || PhotonNetwork.LocalPlayer.ActorNumber == 2)
         {
             if (Input.GetKey(KeyCode.W))
             {
@@ -77,7 +95,7 @@ public class NewMovementControl : MonoBehaviour
             }
         }
 
-        if (playerNum == 1)
+        if (playerNum == 1 && !PhotonNetwork.IsConnected)
         {
             if (Input.GetKey(KeyCode.Keypad8))
             {

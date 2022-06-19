@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class SpawnerManager : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class SpawnerManager : MonoBehaviour
     public bool enableSpawnerByTrigger = false;
 
     //Lists
-    private List<Transform> spawnPoints = new List<Transform>(); //List for spawnpoints
+    public List<Transform> spawnPoints = new List<Transform>(); //List for spawnpoints
     [HideInInspector]
     public List<Transform> waypoints = new List<Transform>(); //List for waypoints
     //List for enemies this spawner has created that are still alive
@@ -24,59 +25,66 @@ public class SpawnerManager : MonoBehaviour
 
     //General
     private int enemycount;
-    private GameObject player;
     private bool enableSpawner = true;
 
     public void OnDrawGizmos()
     {
-        foreach (Transform child in transform)
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
         {
-            if (child.tag == "Waypoint")
+            foreach (Transform child in transform)
             {
-                Gizmos.color = Color.yellow;
-                Gizmos.DrawSphere(child.position, .8f);
-            }
-            if (child.tag == "SpawnPoint")
-            {
-                Gizmos.color = Color.red;
-                Gizmos.DrawSphere(child.position, .8f);
-            }
-            if (child.tag == "SpawnTrigger")
-            {
-                Gizmos.color = Color.blue;
-                Gizmos.DrawCube(child.position, child.transform.localScale);
+                if (child.tag == "Waypoint")
+                {
+                    Gizmos.color = Color.yellow;
+                    Gizmos.DrawSphere(child.position, .8f);
+                }
+                if (child.tag == "SpawnPoint")
+                {
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawSphere(child.position, .8f);
+                }
+                if (child.tag == "SpawnTrigger")
+                {
+                    Gizmos.color = Color.blue;
+                    Gizmos.DrawCube(child.position, child.transform.localScale);
+                }
             }
         }
     }
     // Start is called before the first frame update
     public void Start()
     {
-        SetUpChildObjects();
-        player = GameObject.FindGameObjectWithTag("Player");
-        InvokeRepeating("checkIfObjectShouldBeSpawned", spawnTime, spawnTime);
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
+        {
+            SetUpChildObjects();
+            InvokeRepeating("checkIfObjectShouldBeSpawned", spawnTime, spawnTime);
+        }
     }
     //Checks the setup child elements in the spawner
     public void SetUpChildObjects()
     {
-        //Adds Spawn Points and Waypoints to their appropriate lists
-        foreach (Transform child in transform)
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
         {
-            if (child.tag == "Waypoint")
+            //Adds Spawn Points and Waypoints to their appropriate lists
+            foreach (Transform child in transform)
             {
-                waypoints.Add(child);
-            }
-            if (child.tag == "SpawnPoint")
-            {
-                spawnPoints.Add(child);
-            }
-            //If enableSpawnerByTrigger is false, destroy all Spawntrigger children
-            if (child.tag == "SpawnTrigger" && enableSpawnerByTrigger == false)
-            {
-                Destroy((child).gameObject); //The SpawnTrigger Child can not be destroyed as a transform so it needs to be referenced
-            }
-            else if (child.tag == "SpawnTrigger" && enableSpawnerByTrigger == true)
-            {
-                enableSpawner = false; //Disables the spawner if the user wished to use a trigger to enable the spawner.
+                if (child.tag == "Waypoint")
+                {
+                    waypoints.Add(child);
+                }
+                if (child.tag == "SpawnPoint")
+                {
+                    spawnPoints.Add(child);
+                }
+                //If enableSpawnerByTrigger is false, destroy all Spawntrigger children
+                if (child.tag == "SpawnTrigger" && enableSpawnerByTrigger == false)
+                {
+                    Destroy((child).gameObject); //The SpawnTrigger Child can not be destroyed as a transform so it needs to be referenced
+                }
+                else if (child.tag == "SpawnTrigger" && enableSpawnerByTrigger == true)
+                {
+                    enableSpawner = false; //Disables the spawner if the user wished to use a trigger to enable the spawner.
+                }
             }
         }
     }
@@ -96,26 +104,28 @@ public class SpawnerManager : MonoBehaviour
     public void checkIfObjectShouldBeSpawned()
     //Allows us to disable and enable the spawner
     {
-        if (enableSpawner == true && !HUDManager.gamePaused)
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
         {
-            //If we have not reached the limit of enemies from this spawner
-            if (enemiesFromThisSpawnerList.Count < maxNumberOfEnemiesAtOneTime && enemycount < maxNumberOfEnemiesOtherSpawnerLifeTime)
+            if (enableSpawner == true && !HUDManager.gamePaused)
             {
-                EnemySetActive();
-            }
-            //If we have reached the max number of enemies and all the enemies from this spawner are dead
-            else if (enemiesFromThisSpawnerList.Count == 0 && enemycount >= maxNumberOfEnemiesOtherSpawnerLifeTime)
-            {
-                DestroySpawner();
+                //If we have not reached the limit of enemies from this spawner
+                if (enemiesFromThisSpawnerList.Count < maxNumberOfEnemiesAtOneTime && enemycount < maxNumberOfEnemiesOtherSpawnerLifeTime)
+                {
+                    EnemySetActive();
+                }
+                //If we have reached the max number of enemies and all the enemies from this spawner are dead
+                else if (enemiesFromThisSpawnerList.Count == 0 && enemycount >= maxNumberOfEnemiesOtherSpawnerLifeTime)
+                {
+                    DestroySpawner();
+                }
             }
         }
     }
     //When this function is called, an enemy is instantiated
-    void EnemySetActive()
+    public void EnemySetActive()
     {
-        //If the distance between the spawn position and the player position is bigger than 15
-        //if (Vector3.Distance(spawnPoints[0].position, player.transform.position) > distancePlayerMustBeFromSpawnerBeforeSpawnerInstantiates)
-        //{
+        if (!PhotonNetwork.IsConnected)
+        {
             enemycount++; //adds one to the enemycount
             int a = Random.Range(0, spawnPoints.Count);
             //Set a to a random spawn position
@@ -138,8 +148,9 @@ public class SpawnerManager : MonoBehaviour
             enemiesFromThisSpawnerList.Add(returnedGameObject); //Adds enemy count to the enemiesFromThisSpawnerList
             //Adds the enemy to the main enemy list in the GameController
             GameController.gameController.enemies.Add(returnedGameObject);
-        //}
+        }
     }
+
     void DestroySpawner()
     {
             Destroy(gameObject); //Not using Gamecontroller.gamecontroller.SpawnerDestroyed(gameObject);

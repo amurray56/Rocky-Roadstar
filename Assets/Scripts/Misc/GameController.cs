@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public class GameController : MonoBehaviour
 {
@@ -25,33 +26,42 @@ public class GameController : MonoBehaviour
 
     void OnEnable()//addition
     {
-        Debug.Log("OnEnable called");
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
+        {
+            Debug.Log("OnEnable called");
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
     }
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)//addition
     {
-        enemies.Clear();
-  
-        Debug.Log("OnSceneLoaded: " + scene.name);
-        Debug.Log(mode);
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
+        {
+            enemies.Clear();
+
+            Debug.Log("OnSceneLoaded: " + scene.name);
+            Debug.Log(mode);
+        }
     }
 
     private void Awake()
     {
-        if (gameController == null)
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
         {
-            DontDestroyOnLoad(gameObject);
-            gameController = this;
-        }
-        else if (gameController != null)
-        {
-            Destroy(gameObject);
-        }
+            if (gameController == null)
+            {
+                DontDestroyOnLoad(gameObject);
+                gameController = this;
+            }
+            else if (gameController != null)
+            {
+                Destroy(gameObject);
+            }
 
-        P1Name = null;
-        P2Name = null;
-        P1Score = null;
-        P2Score = null;
+            P1Name = null;
+            P2Name = null;
+            P1Score = null;
+            P2Score = null;
+        }
     }
 
     void PauseTheGame()

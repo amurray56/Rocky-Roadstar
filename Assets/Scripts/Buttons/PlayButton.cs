@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
 public class PlayButton : MonoBehaviour
 {
@@ -11,13 +12,16 @@ public class PlayButton : MonoBehaviour
 
     private void Awake()
     {
-        if (playButtonScript != null)
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
         {
-            Destroy(gameObject);
-        }
-        else
-        {
-            playButtonScript = this;
+            if (playButtonScript != null)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                playButtonScript = this;
+            }
         }
     }
 

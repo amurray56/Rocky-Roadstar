@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Photon.Pun;
 
 public class EnemyMovement : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class EnemyMovement : MonoBehaviour
     private Rigidbody enemyRigidbody;
     private Animator anim;
     private EnemyHealth enemyHealth;
+    private PhotonView photonView;
+    public static GameObject localZombieInstance;
 
     //Waypoints
     public float enemyWaypointSpeed = 3f;
@@ -32,13 +35,17 @@ public class EnemyMovement : MonoBehaviour
 
     private void Awake()
     {
-        anim = GetComponentInChildren<Animator>();
-        agent = GetComponent<NavMeshAgent>();
-        enemyRigidbody = GetComponent<Rigidbody>();
-        enemyCollider = GetComponent<Collider>();
-        enemyHealth = GetComponent<EnemyHealth>();
-        convergeOnPlayer = false;
-        //Invoke("FindPlayer", 1f);
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
+        {
+            anim = GetComponentInChildren<Animator>();
+            agent = GetComponent<NavMeshAgent>();
+            enemyRigidbody = GetComponent<Rigidbody>();
+            enemyCollider = GetComponent<Collider>();
+            enemyHealth = GetComponent<EnemyHealth>();
+            convergeOnPlayer = false;
+            //Invoke("FindPlayer", 1f);
+            localZombieInstance = gameObject;
+        }
     }
 
     private void FindPlayer()
@@ -48,138 +55,165 @@ public class EnemyMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        agent.updatePosition = true; //Stops the enemy from moving
-        agent.updateRotation = true; //Stops the enemy from rotating
-        enemyRigidbody.isKinematic = false;
-        enemyCollider.enabled = true;
-        agent.enabled = true;
-        deathChecked = false;
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
+        {
+            agent.updatePosition = true; //Stops the enemy from moving
+            agent.updateRotation = true; //Stops the enemy from rotating
+            enemyRigidbody.isKinematic = false;
+            enemyCollider.enabled = true;
+            agent.enabled = true;
+            deathChecked = false;
+        }
     }
 
     public void Update()
     {
-        if (!playerInRange)
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
         {
-            Waypoints();
+            if (!playerInRange)
+            {
+                Waypoints();
+            }
         }
     }
 
     public void FixedUpdate()
     {
-        NavMeshHit hit;
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
+        {
+            NavMeshHit hit;
 
-        if (!NavMesh.Raycast(transform.position, transform.forward, out hit, 1) && !sendEnemiesBackToWayPoints || enemyHealth.enemyWasShotAtByThePlayer && !sendEnemiesBackToWayPoints || convergeOnPlayer)
-        {
-            enemyHealth.enemyWasShotAtByThePlayer = false;
-        }
+            if (!NavMesh.Raycast(transform.position, transform.forward, out hit, 1) && !sendEnemiesBackToWayPoints || enemyHealth.enemyWasShotAtByThePlayer && !sendEnemiesBackToWayPoints || convergeOnPlayer)
+            {
+                enemyHealth.enemyWasShotAtByThePlayer = false;
+            }
 
-        if (HUDManager.gamePaused || HUDManager.lose || HUDManager.victory)
-        {
-            agent.isStopped = true;
-        }
-        else
-        {
-            agent.isStopped = false;
-        }
+            if (HUDManager.gamePaused || HUDManager.lose || HUDManager.victory)
+            {
+                agent.isStopped = true;
+            }
+            else
+            {
+                agent.isStopped = false;
+            }
 
-        if (transform.position.y < fallDistanceBeforeDeath && deathChecked == false)
-        {
-            deathChecked = true;
-            enemyHealth.Death();
-        }
+            if (transform.position.y < fallDistanceBeforeDeath && deathChecked == false)
+            {
+                deathChecked = true;
+                enemyHealth.Death();
+            }
 
-        if (agent.updatePosition == true && !agent.isOnNavMesh)
-        {
-            enemyHealth.Death();
+            if (agent.updatePosition == true && !agent.isOnNavMesh)
+            {
+                enemyHealth.Death();
+            }
         }
     }
 
     public void OnTriggerEnter(Collider other)
     {
-        if (agent.updateRotation == false)
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
         {
-            if (enemyHealth.enemyHealthAmount > 0)
+            if (agent.updateRotation == false)
             {
-                agent.updateRotation = true;
-                anim.SetBool("Explosion", false);
-                Invoke("UpdatePosition", 0.8f);
+                if (enemyHealth.enemyHealthAmount > 0)
+                {
+                    agent.updateRotation = true;
+                    anim.SetBool("Explosion", false);
+                    Invoke("UpdatePosition", 0.8f);
+                }
             }
         }
     }
 
     public void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
         {
-            other.GetComponent<PlayerHealth>();
-
-            if (!other.GetComponent<PlayerHealth>().isDead)
+            if (other.CompareTag("Player"))
             {
-                playerInRange = true;
-                anim.SetBool("Run", true);
-                anim.SetBool("Walk", false);
-                NavMeshAgentSettings(other.transform.position, enemySpeed, enemyStoppingDistance); //Sets the destination for navmesh
+                other.GetComponent<PlayerHealth>();
+
+                if (!other.GetComponent<PlayerHealth>().isDead)
+                {
+                    playerInRange = true;
+                    anim.SetBool("Run", true);
+                    anim.SetBool("Walk", false);
+                    NavMeshAgentSettings(other.transform.position, enemySpeed, enemyStoppingDistance); //Sets the destination for navmesh
+                }
             }
         }
     }
 
     public void OnTriggerExit(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
         {
-            playerInRange = false;
+            if (other.CompareTag("Player"))
+            {
+                playerInRange = false;
+            }
         }
     }
 
 
     public void UpdatePosition()
     {
-        agent.updatePosition = true;
-
-        NavMeshHit hit;
-
-        if (NavMesh.SamplePosition(transform.position, out hit, 50, 1))
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
         {
-            agent.Warp(hit.position);
-        }
-        else
-        {
-            enemyHealth.Death();
+            agent.updatePosition = true;
+
+            NavMeshHit hit;
+
+            if (NavMesh.SamplePosition(transform.position, out hit, 50, 1))
+            {
+                agent.Warp(hit.position);
+            }
+            else
+            {
+                enemyHealth.Death();
+            }
         }
     }  
 
     public void NavMeshAgentSettings(Vector3 enemyTarget, float enemySpeed, float enemyStoppingDistance)
     {
-        if (agent.isOnNavMesh && !HUDManager.gamePaused)
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
         {
-            agent.SetDestination(enemyTarget); //Moves enemy to the Target
-            agent.speed = enemySpeed; //Sets the chase speed
-            agent.stoppingDistance = enemyStoppingDistance;
+            if (agent.isOnNavMesh && !HUDManager.gamePaused)
+            {
+                agent.SetDestination(enemyTarget); //Moves enemy to the Target
+                agent.speed = enemySpeed; //Sets the chase speed
+                agent.stoppingDistance = enemyStoppingDistance;
+            }
         }
     }
 
     public void Waypoints()
     {
-        if (agent.remainingDistance <= agent.stoppingDistance)
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
         {
-            if (wayPointIndex < waypoints.Count - 1)
+            if (agent.remainingDistance <= agent.stoppingDistance)
             {
-                wayPointIndex++;
+                if (wayPointIndex < waypoints.Count - 1)
+                {
+                    wayPointIndex++;
+                }
+                else
+                {
+                    wayPointIndex = 0;
+                }
+            }
+            if (waypoints == null)
+            {
+                enemyHealth.Death();
             }
             else
             {
-                wayPointIndex = 0;
+                anim.SetBool("Run", false);
+                anim.SetBool("Walk", true);
+                NavMeshAgentSettings(waypoints[wayPointIndex].position, enemyWaypointSpeed, enemyWaypointStoppingDistance);
             }
-        }
-        if (waypoints == null)
-        {
-            enemyHealth.Death();
-        }
-        else
-        {
-            anim.SetBool("Run", false);
-            anim.SetBool("Walk", true);
-            NavMeshAgentSettings(waypoints[wayPointIndex].position, enemyWaypointSpeed, enemyWaypointStoppingDistance);
         }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class GameMaster : MonoBehaviour
 {
@@ -10,7 +11,8 @@ public class GameMaster : MonoBehaviour
 
     private void Awake()
     {
-        saveGame = GetComponent<SaveSystem>();
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
+            saveGame = GetComponent<SaveSystem>();
     }
 
     // Update is called once per frame
