@@ -151,6 +151,9 @@ public class RoundManager : MonoBehaviour
             if (!GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && !GameObject.Find("Player2(Clone)"))
             {
                 EndRound(1);
+
+                if (PhotonNetwork.IsConnected)
+                    PhotonNetwork.LeaveRoom();
             }
 
             else if (!GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && GameObject.Find("Player2(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0)
@@ -159,16 +162,24 @@ public class RoundManager : MonoBehaviour
                 {
                     UIManager.UpdateScoreUI();
                     UIManager.DisplayResultsDraw();
+
+                    if (PhotonNetwork.IsConnected)
+                        PhotonNetwork.LeaveRoom();
                 }
 
                 else if (playerScores[0] > playerScores[1])
                 {
                     EndRound(1);
+
+                    if (PhotonNetwork.IsConnected)
+                        PhotonNetwork.LeaveRoom();
                 }
 
                 else if (playerScores[0] < playerScores[1])
                 {
                     EndRound(2);
+                    if (PhotonNetwork.IsConnected)
+                        PhotonNetwork.LeaveRoom();
                 }
             }
     }
