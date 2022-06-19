@@ -125,6 +125,5 @@ public class Launcher : MonoBehaviourPunCallbacks
         if(PhotonNetwork.IsMasterClient)
         PhotonNetwork.LoadLevel(1);
     }
-    
     #endregion
 }

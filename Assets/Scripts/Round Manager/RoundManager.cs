@@ -72,26 +72,41 @@ public class RoundManager : MonoBehaviour
 
     public void EndRoundOnDeath()
     {
-        if (!GameObject.Find("Player2(Clone)") && GameObject.Find("Player(Clone)").GetComponent<PlayerHealth>().numberOfLivesLeft <= 0 || !GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && !GameObject.Find("Player2(Clone)"))
+        if (!PhotonNetwork.IsConnected)
         {
-            EndRound(1);
-        }
-        else if (GameObject.Find("Player(Clone)").GetComponent<PlayerHealth>().numberOfLivesLeft <= 0 && GameObject.Find("Player2(Clone)").GetComponent<PlayerHealth>().numberOfLivesLeft <= 0 || !GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && GameObject.Find("Player2(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0)
-        {
-            if (playerScores[0] == playerScores[1])
-            {
-                UIManager.UpdateScoreUI();
-                UIManager.DisplayResultsDraw();
-            }
-
-            if (playerScores[0] > playerScores[1])
+            if (!GameObject.Find("Player2(Clone)") && GameObject.Find("Player(Clone)").GetComponent<PlayerHealth>().numberOfLivesLeft <= 0 || !GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && !GameObject.Find("Player2(Clone)"))
             {
                 EndRound(1);
             }
-
-            if (playerScores[0] < playerScores[1])
+            else if (GameObject.Find("Player(Clone)").GetComponent<PlayerHealth>().numberOfLivesLeft <= 0 && GameObject.Find("Player2(Clone)").GetComponent<PlayerHealth>().numberOfLivesLeft <= 0 || !GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && GameObject.Find("Player2(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0)
             {
-                EndRound(2);
+                if (playerScores[0] == playerScores[1])
+                {
+                    UIManager.UpdateScoreUI();
+                    UIManager.DisplayResultsDraw();
+                }
+
+                if (playerScores[0] > playerScores[1])
+                {
+                    EndRound(1);
+                }
+
+                if (playerScores[0] < playerScores[1])
+                {
+                    EndRound(2);
+                }
+            }
+        }
+
+        if (PhotonNetwork.IsConnected)
+        {
+            if(!GameObject.Find("Player2(Clone)") && GameObject.Find("Player(Clone)").GetComponent<PlayerHealth>().numberOfLivesLeft <= 0 || !GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && !GameObject.Find("Player2(Clone)"))
+            {
+                PhotonNetwork.LeaveRoom();
+            }
+            else if (GameObject.Find("Player(Clone)").GetComponent<PlayerHealth>().numberOfLivesLeft <= 0 && GameObject.Find("Player2(Clone)").GetComponent<PlayerHealth>().numberOfLivesLeft <= 0 || !GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && GameObject.Find("Player2(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0)
+            {
+                PhotonNetwork.LeaveRoom();
             }
         }
     }
@@ -133,29 +148,29 @@ public class RoundManager : MonoBehaviour
 
     public void CheckForEnd()
     {
-        if (!GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && !GameObject.Find("Player2(Clone)"))
-        {
-                EndRound(1);
-        }
-
-        else if(!GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && GameObject.Find("Player2(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0)
-        {
-            if (playerScores[0] == playerScores[1])
-            {
-                UIManager.UpdateScoreUI();
-                UIManager.DisplayResultsDraw();
-            }
-
-            else if (playerScores[0] > playerScores[1])
+            if (!GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && !GameObject.Find("Player2(Clone)"))
             {
                 EndRound(1);
             }
 
-            else if (playerScores[0] < playerScores[1])
+            else if (!GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && GameObject.Find("Player2(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0)
             {
-                EndRound(2);
+                if (playerScores[0] == playerScores[1])
+                {
+                    UIManager.UpdateScoreUI();
+                    UIManager.DisplayResultsDraw();
+                }
+
+                else if (playerScores[0] > playerScores[1])
+                {
+                    EndRound(1);
+                }
+
+                else if (playerScores[0] < playerScores[1])
+                {
+                    EndRound(2);
+                }
             }
-        }
     }
     //RUN TIMER
     //ticks down the timer and checks for end round. passes info to UI manager if it exists
@@ -175,31 +190,42 @@ public class RoundManager : MonoBehaviour
 
     public void FindHUD()
     {
-        if (GameObject.Find("HUDP1") && GameObject.Find("HUDP2"))
+        if (!PhotonNetwork.IsConnected)
         {
-            hudManagerP1 = GameObject.Find("HUDP1").GetComponent<HUDManager>();
-            hudManagerP2 = GameObject.Find("HUDP2").GetComponent<HUDManager>();
-            UpdateHUDManager();
-        }
-        else
-        {
-            hudManagerP1 = GameObject.Find("HUDP1").GetComponent<HUDManager>();
-            p2Name.gameObject.SetActive(false);
-            p2Score.gameObject.SetActive(false);
-            UpdateHUDManager();
+            if (GameObject.Find("HUDP1") && GameObject.Find("HUDP2"))
+            {
+                hudManagerP1 = GameObject.Find("HUDP1").GetComponent<HUDManager>();
+                hudManagerP2 = GameObject.Find("HUDP2").GetComponent<HUDManager>();
+                UpdateHUDManager();
+            }
+            else
+            {
+                hudManagerP1 = GameObject.Find("HUDP1").GetComponent<HUDManager>();
+                p2Name.gameObject.SetActive(false);
+                p2Score.gameObject.SetActive(false);
+                UpdateHUDManager();
+            }
         }
     }
 
     public void UpdateHUDManager()
     {
-        if (GameObject.Find("HUDP2"))
+        if (GameObject.Find("HUDP1") && GameObject.Find("HUDP2"))
         {
+            hudManagerP1 = GameObject.Find("HUDP1").GetComponent<HUDManager>();
+            hudManagerP2 = GameObject.Find("HUDP2").GetComponent<HUDManager>();
             hudManagerP1.UpdateHUD();
             hudManagerP2.UpdateHUD();
         }
-        else
+        else if (GameObject.Find("HUDP1") && !GameObject.Find("HUDP2"))
         {
+            hudManagerP1 = GameObject.Find("HUDP1").GetComponent<HUDManager>();
             hudManagerP1.UpdateHUD();
+        }
+        else if (!GameObject.Find("HUDP1") && GameObject.Find("HUDP2"))
+        {
+            hudManagerP2 = GameObject.Find("HUDP2").GetComponent<HUDManager>();
+            hudManagerP2.UpdateHUD();
         }
     }
 

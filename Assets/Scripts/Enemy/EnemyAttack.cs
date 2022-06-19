@@ -49,8 +49,8 @@ public class EnemyAttack : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            playerInRange = false;
             victim = null;
+            playerInRange = false;
         }
     }
 
