@@ -23,12 +23,11 @@ public class ZombieManager : MonoBehaviourPunCallbacks
         for (int i = GameObject.FindGameObjectsWithTag("Enemy").Length; i < 100; i++)
         {
             int a = Random.Range(0, spawnPoints.Length);
-            GameObject newZombie = PhotonNetwork.Instantiate(zombie.name, new Vector3(spawnPoints[a].transform.position.x, spawnPoints[a].transform.position.y, spawnPoints[a].transform.position.z), Quaternion.identity);
+            GameObject newZombie = PhotonNetwork.InstantiateRoomObject(zombie.name, new Vector3(spawnPoints[a].transform.position.x, spawnPoints[a].transform.position.y, spawnPoints[a].transform.position.z), Quaternion.identity);
             EnemyMovement enemyMovement = newZombie.GetComponent<EnemyMovement>();
             enemyMovement.waypoints = GameObject.Find("Spawner Manager").GetComponent<SpawnerManager>().waypoints;
             yield return new WaitForSeconds(1);
         }
-        
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)

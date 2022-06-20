@@ -8,12 +8,17 @@ public class NewMovementControl : MonoBehaviour
 {
     private Rigidbody rb;
     public float speed = 1;
+    public float sprintSpeed = 9;
     private bool isGrounded;
     private Animator anim;
     public float jumpForce = 1;
     public int playerNum;
     PhotonView pv;
     public GameObject playerCam;
+    public GameObject hammer;
+    private float timer;
+    private float sprintTimer;
+    private bool canSprint;
 
     // Start is called before the first frame update
     void Start()
@@ -39,9 +44,10 @@ public class NewMovementControl : MonoBehaviour
             if (!pv.IsMine)
                 return;
         }
-        
 
-        if(playerNum == 0 || PhotonNetwork.LocalPlayer.ActorNumber == 2)
+        timer += Time.deltaTime;
+
+        if (playerNum == 0 || PhotonNetwork.LocalPlayer.ActorNumber == 2)
         {
             if (Input.GetKey(KeyCode.W))
             {
@@ -93,6 +99,43 @@ public class NewMovementControl : MonoBehaviour
             {
                 anim.SetFloat("SideMomentum", 0);
             }
+
+            if(Input.GetMouseButtonDown(0) && timer >= 2)
+            {
+                anim.SetTrigger("HammerSwing");
+                hammer.SetActive(true);
+                timer = 0;
+            }
+
+            if(timer >= 2)
+            {
+                hammer.SetActive(false);
+            }
+
+            if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift) && canSprint)
+            {
+                transform.position += sprintSpeed * transform.forward * Time.deltaTime;
+                anim.SetBool("Sprinting", true);
+                anim.SetFloat("ForwardMomentum", 1);
+                sprintTimer += Time.deltaTime;
+                if (sprintTimer >= 1)
+                {
+                    canSprint = false;
+                    sprintTimer = 3;
+                }
+            }
+            else
+            {
+                anim.SetBool("Sprinting", false);
+                sprintTimer -= Time.deltaTime;
+
+                if (sprintTimer <= 0)
+                {
+                    sprintTimer = 0;
+                    canSprint = true;
+                }
+            }
+
         }
 
         if (playerNum == 1 && !PhotonNetwork.IsConnected)

@@ -34,19 +34,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     #endregion
 
 
-    #region Public Methods
-
-
-    public void LeaveRoom()
-    {
-        if (PhotonNetwork.IsConnected)
-            PhotonNetwork.LeaveRoom();
-        else
-            SceneManager.LoadScene(0);
-    }
-
-    #endregion
-
     #region Private Methods
 
     public void LoadArena()

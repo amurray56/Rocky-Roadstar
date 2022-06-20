@@ -107,6 +107,7 @@ public class PlayButton : MonoBehaviour
         selectLevelImage.SetActive(false);
         backButton.SetActive(false);
         coopButton.SetActive(false);
+        onlineButton.SetActive(false);
     }
 
     public void LoadOnePlayer()

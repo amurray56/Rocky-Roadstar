@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
+using UnityEngine.SceneManagement;
 
 public class HUDManager : MonoBehaviour
 {
@@ -94,4 +96,17 @@ public class HUDManager : MonoBehaviour
     {
 
     }
+
+    #region Public Methods
+
+
+    public void LeaveRoom()
+    {
+        if (PhotonNetwork.IsConnected)
+            PhotonNetwork.LeaveRoom();
+        else
+            SceneManager.LoadScene(0);
+    }
+
+    #endregion
 }
