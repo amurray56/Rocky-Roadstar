@@ -12,6 +12,8 @@ public class RoundManager : MonoBehaviour
     public InputField p2Name;
     public TextMeshProUGUI p1Score;
     public TextMeshProUGUI p2Score;
+    public float runTimer = 0f;
+    public GameObject canvas;
 
     //SINGLETON PATTERN
     public static RoundManager instance;
@@ -68,6 +70,33 @@ public class RoundManager : MonoBehaviour
             playerScores[1] = 0;
             UIManager.UpdateScoreUI();
         }
+    }
+
+    public void Update()
+    {
+        if(!PhotonNetwork.IsConnected || PhotonNetwork.IsMasterClient)
+        {
+            runTimer += Time.deltaTime;
+
+            if (runTimer >= 120)
+            {
+                GameObject[] zombie = GameObject.FindGameObjectsWithTag("Enemy");
+
+                if (runTimer <= 122)
+                {
+                    for (int i = 0; i < zombie.Length; i++)
+                    {
+                        zombie[i].GetComponent<EnemyMovement>().enemySpeed = 11f;
+                        Debug.Log("Zombie should move quicker");
+                    }
+                }
+            }
+        }
+
+        if (runTimer >= 120 && runTimer < 123)
+            canvas.SetActive(true);
+        else if (runTimer >= 123)
+            canvas.SetActive(false);
     }
 
     public void EndRoundOnDeath()

@@ -18,12 +18,11 @@ public class EnemyMovement : MonoBehaviour
     public float fallDistanceBeforeDeath = -10f; //Enemy fall distance before death
 
     //General Components
-    private NavMeshAgent agent;
+    public NavMeshAgent agent;
     private Collider enemyCollider;
     private Rigidbody enemyRigidbody;
     private Animator anim;
     private EnemyHealth enemyHealth;
-    private PhotonView photonView;
     public static GameObject localZombieInstance;
 
     //Waypoints

@@ -30,6 +30,10 @@ public class PoolManager : MonoBehaviour
 				for (int j = 0; j < pooledAmountForEachObject[i]; j++)
 				{
 					GameObject obj = Instantiate(collectionOfObjectsToBePooled[i]); //Creates the object in the scene
+					if (GameObject.Find("RoundCanvas").GetComponent<RoundManager>().runTimer >= 120)
+					{
+						obj.GetComponent<EnemyMovement>().enemySpeed = 11f;
+					}
 					obj.SetActive(false);
 					pooledObjects.Add(obj); //Adds the newly created object to an array so it can be stored in a Dictionary
 				}

@@ -9,6 +9,7 @@ TagManager:
   - SpawnPoint
   - Waypoint
   - Coin
+  - Hammer
   layers:
   - Default
   - TransparentFX

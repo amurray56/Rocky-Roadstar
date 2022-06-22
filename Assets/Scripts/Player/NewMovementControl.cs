@@ -8,7 +8,7 @@ public class NewMovementControl : MonoBehaviour
 {
     private Rigidbody rb;
     public float speed = 1;
-    public float sprintSpeed = 9;
+    public float sprintSpeed;
     private bool isGrounded;
     private Animator anim;
     public float jumpForce = 1;

@@ -10,11 +10,17 @@ public class HammerSwing : MonoBehaviour
     {
         if(hit.CompareTag("Enemy") || hit.CompareTag("Player"))
         {
-            if(hit.CompareTag("Enemy"))
-            Physics.IgnoreCollision(gameObject.GetComponent<BoxCollider>(), hit.gameObject.GetComponent<SphereCollider>());
-
-            Vector3 destination = transform.TransformPoint(0, 0, -pushForce);
-            StartCoroutine(MoveOverSeconds(hit.gameObject, destination, 1.5f));
+            if (hit.CompareTag("Enemy"))
+            {
+                Physics.IgnoreCollision(gameObject.GetComponent<BoxCollider>(), hit.gameObject.GetComponent<SphereCollider>());
+                Vector3 destination = hit.transform.TransformPoint(0, 0, -pushForce);
+                StartCoroutine(MoveOverSeconds(hit.gameObject, destination, 2f));
+            }
+            else
+            {
+                Vector3 destination = hit.transform.TransformPoint(0, 0, -pushForce);
+                StartCoroutine(MoveOverSeconds(hit.gameObject, destination, 2f));
+            }
         }
     }
 

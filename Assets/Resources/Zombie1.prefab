@@ -1841,6 +1841,7 @@ MonoBehaviour:
   enemySpeed: 7
   enemyStoppingDistance: 1
   fallDistanceBeforeDeath: -10
+  agent: {fileID: 0}
   enemyWaypointSpeed: 2
   enemyWaypointStoppingDistance: 3.5
   waypoints:

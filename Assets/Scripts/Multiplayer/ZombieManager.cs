@@ -25,6 +25,10 @@ public class ZombieManager : MonoBehaviourPunCallbacks
             int a = Random.Range(0, spawnPoints.Length);
             GameObject newZombie = PhotonNetwork.InstantiateRoomObject(zombie.name, new Vector3(spawnPoints[a].transform.position.x, spawnPoints[a].transform.position.y, spawnPoints[a].transform.position.z), Quaternion.identity);
             EnemyMovement enemyMovement = newZombie.GetComponent<EnemyMovement>();
+            if (GameObject.Find("RoundCanvas").GetComponent<RoundManager>().runTimer >= 120)
+            {
+                enemyMovement.enemySpeed = 11f;
+            }
             enemyMovement.waypoints = GameObject.Find("Spawner Manager").GetComponent<SpawnerManager>().waypoints;
             yield return new WaitForSeconds(1);
         }

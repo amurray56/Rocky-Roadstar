@@ -27,7 +27,7 @@ public class PlayButton : MonoBehaviour
 
     public void ScoreBoard()
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(3);
     }
 
     public void SelectLevelSolo()
@@ -93,7 +93,7 @@ public class PlayButton : MonoBehaviour
     public void SinglePlayerLevel1()
     {
         DontDestroyOnLoad(gameObject);
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
         Invoke("LoadOnePlayer", .1f);
         selectLevelImage.SetActive(false);
         backButton.SetActive(false);
@@ -102,7 +102,7 @@ public class PlayButton : MonoBehaviour
     public void CoopLevel1()
     {
         DontDestroyOnLoad(gameObject);
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
         Invoke("LoadTwoPlayer", .1f);
         selectLevelImage.SetActive(false);
         backButton.SetActive(false);

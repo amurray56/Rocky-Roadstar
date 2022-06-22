@@ -23,6 +23,7 @@ public class Collectable: MonoBehaviour
         transform.Rotate(rotation * Time.deltaTime, Space.World); //Rotates the object
     }
 
+    /*
     private void OnTriggerEnter(Collider other) //Detects when the player enters the trigger
     {
         if(other.CompareTag("Player"))
@@ -30,4 +31,5 @@ public class Collectable: MonoBehaviour
             gameObject.SetActive(false);
         }
     }
+    */
 }

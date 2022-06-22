@@ -13,6 +13,7 @@ public class CoinValueHeld : MonoBehaviour
         {
             coinValueHeld += other.GetComponent<Collectable>().coinValue;
             GetComponentInChildren<HUDManager>().UpdateHUD();
+            other.gameObject.SetActive(false);
         }
     }
 }
