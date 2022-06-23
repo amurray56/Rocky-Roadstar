@@ -2951,7 +2951,7 @@ MonoBehaviour:
   jumpForce: 6
   playerNum: 1
   playerCam: {fileID: 5599219386483789535}
-  hammer: {fileID: 0}
+  hammer: {fileID: 2964285432716727626}
 --- !u!114 &2199557410959224322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5752,5 +5752,10 @@ PrefabInstance:
 --- !u!4 &2479391341331763184 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6077382977688556098, guid: 6a67f325660271648b61fe605f685cd8, type: 3}
+  m_PrefabInstance: {fileID: 8520708067302809010}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2964285432716727626 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6853602540992432376, guid: 6a67f325660271648b61fe605f685cd8, type: 3}
   m_PrefabInstance: {fileID: 8520708067302809010}
   m_PrefabAsset: {fileID: 0}

@@ -104,8 +104,8 @@ public class HUDManager : MonoBehaviour
     {
         if (PhotonNetwork.IsConnected)
             PhotonNetwork.LeaveRoom();
-        else
-            SceneManager.LoadScene(0);
+
+        SceneManager.LoadScene(0);
     }
 
     #endregion

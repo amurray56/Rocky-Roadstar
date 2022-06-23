@@ -91,8 +91,16 @@ public class PlayerHealth : MonoBehaviour
 		isDead = true;
 		playerRigidbody.isKinematic = true;
 
-		GameObject.Find("RoundCanvas").GetComponent<RoundManager>().EndRoundOnDeath();
-		GameObject.Find("RoundCanvas").GetComponent<RoundManager>().CheckForEnd();
+		
+		if(PhotonNetwork.IsConnected)
+			GameObject.Find("RoundCanvas").GetComponent<RoundManager>().photonView.RPC("EndRoundOnDeath", RpcTarget.All);
+		else
+			GameObject.Find("RoundCanvas").GetComponent<RoundManager>().EndRoundOnDeath();
+		
+		if(PhotonNetwork.IsConnected)
+			GameObject.Find("RoundCanvas").GetComponent<RoundManager>().photonView.RPC("CheckForEnd", RpcTarget.All);
+		else
+			GameObject.Find("RoundCanvas").GetComponent<RoundManager>().CheckForEnd();
 	}
 	//Respawns the player
 	void Respawn()

@@ -40,6 +40,10 @@ MonoBehaviour:
   - Fire
   - RespawnSpaceship
   - Start
+  - CheckForEnd
+  - EndRoundOnDeath
+  - FindHUD
+  - UpdateHUDManager
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class ScoreZone : MonoBehaviour
 {
@@ -23,6 +24,15 @@ public class ScoreZone : MonoBehaviour
             //roundManager.UpdateScore(other.GetComponent<PlayerInputs>().playerNum, other.GetComponent<CoinValueHeld>().coinValueHeld);
             other.GetComponent<CoinValueHeld>().coinValueHeld = 0;
             other.GetComponentInChildren<HUDManager>().UpdateHUD();
+            Invoke("EndCheck", .5f);
         }
+    }
+
+    public void EndCheck()
+    {
+        if (PhotonNetwork.IsConnected)
+            GameObject.Find("RoundCanvas").GetComponent<RoundManager>().photonView.RPC("CheckForEnd", RpcTarget.All);
+        else
+            GameObject.Find("RoundCanvas").GetComponent<RoundManager>().CheckForEnd();
     }
 }

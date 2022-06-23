@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 
-public class RoundManager : MonoBehaviour
+public class RoundManager : MonoBehaviourPun
 {
     //Scoreboard Settings
     public InputField p1Name;
@@ -50,8 +50,8 @@ public class RoundManager : MonoBehaviour
     [SerializeField] RoundUIManager UIManager;
     public void Start()
     {
-        Invoke("FindHUD", 0.1f);
-        Invoke("UpdateHUDManager", 0.1f);
+        Invoke("FindHUD", 0.5f);
+        Invoke("UpdateHUDManager", 0.5f);
         //Invoke("SetupScene", 0.1f);
     }
     //SETUP SCENE
@@ -99,43 +99,50 @@ public class RoundManager : MonoBehaviour
             canvas.SetActive(false);
     }
 
+    [PunRPC]
     public void EndRoundOnDeath()
     {
-        if (!PhotonNetwork.IsConnected)
+        if (!GameObject.Find("Player2(Clone)") && GameObject.Find("Player(Clone)").GetComponent<PlayerHealth>().numberOfLivesLeft <= 0 || !GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && !GameObject.Find("Player2(Clone)"))
         {
-            if (!GameObject.Find("Player2(Clone)") && GameObject.Find("Player(Clone)").GetComponent<PlayerHealth>().numberOfLivesLeft <= 0 || !GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && !GameObject.Find("Player2(Clone)"))
+            EndRound(1);
+
+            if(PhotonNetwork.IsConnected)
+                p1Name.text = PhotonNetwork.LocalPlayer.Get(1).NickName;
+        }
+        else if (GameObject.Find("Player(Clone)").GetComponent<PlayerHealth>().numberOfLivesLeft <= 0 && GameObject.Find("Player2(Clone)").GetComponent<PlayerHealth>().numberOfLivesLeft <= 0 || !GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && GameObject.Find("Player2(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0)
+        {
+            if (playerScores[0] == playerScores[1])
+            {
+                UIManager.UpdateScoreUI();
+                UIManager.DisplayResultsDraw();
+
+                if (PhotonNetwork.IsConnected)
+                {
+                    p1Name.text = PhotonNetwork.LocalPlayer.Get(1).NickName;
+                    p2Name.text = PhotonNetwork.LocalPlayer.Get(2).NickName;
+                }
+            }
+
+            if (playerScores[0] > playerScores[1])
             {
                 EndRound(1);
-            }
-            else if (GameObject.Find("Player(Clone)").GetComponent<PlayerHealth>().numberOfLivesLeft <= 0 && GameObject.Find("Player2(Clone)").GetComponent<PlayerHealth>().numberOfLivesLeft <= 0 || !GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && GameObject.Find("Player2(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0)
-            {
-                if (playerScores[0] == playerScores[1])
-                {
-                    UIManager.UpdateScoreUI();
-                    UIManager.DisplayResultsDraw();
-                }
 
-                if (playerScores[0] > playerScores[1])
+                if (PhotonNetwork.IsConnected)
                 {
-                    EndRound(1);
-                }
-
-                if (playerScores[0] < playerScores[1])
-                {
-                    EndRound(2);
+                    p1Name.text = PhotonNetwork.LocalPlayer.Get(1).NickName;
+                    p2Name.text = PhotonNetwork.LocalPlayer.Get(2).NickName;
                 }
             }
-        }
 
-        if (PhotonNetwork.IsConnected)
-        {
-            if(!GameObject.Find("Player2(Clone)") && GameObject.Find("Player(Clone)").GetComponent<PlayerHealth>().numberOfLivesLeft <= 0 || !GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && !GameObject.Find("Player2(Clone)"))
+            if (playerScores[0] < playerScores[1])
             {
-                PhotonNetwork.LeaveRoom();
-            }
-            else if (GameObject.Find("Player(Clone)").GetComponent<PlayerHealth>().numberOfLivesLeft <= 0 && GameObject.Find("Player2(Clone)").GetComponent<PlayerHealth>().numberOfLivesLeft <= 0 || !GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && GameObject.Find("Player2(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0)
-            {
-                PhotonNetwork.LeaveRoom();
+                EndRound(2);
+
+                if (PhotonNetwork.IsConnected)
+                {
+                    p1Name.text = PhotonNetwork.LocalPlayer.Get(1).NickName;
+                    p2Name.text = PhotonNetwork.LocalPlayer.Get(2).NickName;
+                }
             }
         }
     }
@@ -171,46 +178,55 @@ public class RoundManager : MonoBehaviour
             EndRound(playerNum + 1);
         }
         */
-
-        Invoke("CheckForEnd", .5f);
     }
 
+    [PunRPC]
     public void CheckForEnd()
     {
-            if (!GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && !GameObject.Find("Player2(Clone)"))
+        if (!GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && !GameObject.Find("Player2(Clone)"))
+        {
+            EndRound(1);
+
+            if (PhotonNetwork.IsConnected)
+                p1Name.text = PhotonNetwork.LocalPlayer.Get(1).NickName;
+        }
+
+        else if (!GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && GameObject.Find("Player2(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0)
+        {
+            if (playerScores[0] == playerScores[1])
+            {
+                UIManager.UpdateScoreUI();
+                UIManager.DisplayResultsDraw();
+
+                if (PhotonNetwork.IsConnected)
+                {
+                    p1Name.text = PhotonNetwork.LocalPlayer.Get(1).NickName;
+                    p2Name.text = PhotonNetwork.LocalPlayer.Get(2).NickName;
+                }
+            }
+
+            else if (playerScores[0] > playerScores[1])
             {
                 EndRound(1);
 
                 if (PhotonNetwork.IsConnected)
-                    PhotonNetwork.LeaveRoom();
+                {
+                    p1Name.text = PhotonNetwork.LocalPlayer.Get(1).NickName;
+                    p2Name.text = PhotonNetwork.LocalPlayer.Get(2).NickName;
+                }
             }
 
-            else if (!GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && GameObject.Find("Player2(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0)
+            else if (playerScores[0] < playerScores[1])
             {
-                if (playerScores[0] == playerScores[1])
+                EndRound(2);
+
+                if (PhotonNetwork.IsConnected)
                 {
-                    UIManager.UpdateScoreUI();
-                    UIManager.DisplayResultsDraw();
-
-                    if (PhotonNetwork.IsConnected)
-                        PhotonNetwork.LeaveRoom();
-                }
-
-                else if (playerScores[0] > playerScores[1])
-                {
-                    EndRound(1);
-
-                    if (PhotonNetwork.IsConnected)
-                        PhotonNetwork.LeaveRoom();
-                }
-
-                else if (playerScores[0] < playerScores[1])
-                {
-                    EndRound(2);
-                    if (PhotonNetwork.IsConnected)
-                        PhotonNetwork.LeaveRoom();
+                    p1Name.text = PhotonNetwork.LocalPlayer.Get(1).NickName;
+                    p2Name.text = PhotonNetwork.LocalPlayer.Get(2).NickName;
                 }
             }
+        }
     }
     //RUN TIMER
     //ticks down the timer and checks for end round. passes info to UI manager if it exists
@@ -228,26 +244,27 @@ public class RoundManager : MonoBehaviour
         }
     }
 
+    [PunRPC]
     public void FindHUD()
     {
-        if (!PhotonNetwork.IsConnected)
+        if (GameObject.Find("HUDP1") && GameObject.Find("HUDP2"))
         {
-            if (GameObject.Find("HUDP1") && GameObject.Find("HUDP2"))
-            {
-                hudManagerP1 = GameObject.Find("HUDP1").GetComponent<HUDManager>();
-                hudManagerP2 = GameObject.Find("HUDP2").GetComponent<HUDManager>();
-                UpdateHUDManager();
-            }
-            else
-            {
-                hudManagerP1 = GameObject.Find("HUDP1").GetComponent<HUDManager>();
-                p2Name.gameObject.SetActive(false);
-                p2Score.gameObject.SetActive(false);
-                UpdateHUDManager();
-            }
+            hudManagerP1 = GameObject.Find("HUDP1").GetComponent<HUDManager>();
+            hudManagerP2 = GameObject.Find("HUDP2").GetComponent<HUDManager>();
+            p2Name.gameObject.SetActive(true);
+            p2Score.gameObject.SetActive(true);
+            UpdateHUDManager();
+        }
+        else if (GameObject.Find("HUDP1"))
+        {
+            hudManagerP1 = GameObject.Find("HUDP1").GetComponent<HUDManager>();
+            p2Name.gameObject.SetActive(false);
+            p2Score.gameObject.SetActive(false);
+            UpdateHUDManager();
         }
     }
 
+    [PunRPC]
     public void UpdateHUDManager()
     {
         if (GameObject.Find("HUDP1") && GameObject.Find("HUDP2"))
