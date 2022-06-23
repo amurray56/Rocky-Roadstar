@@ -8,14 +8,18 @@ public class ZombieManager : MonoBehaviourPunCallbacks
 {
 
     public GameObject zombie;
+    public List<GameObject> zombieList = new List<GameObject>();
     private GameObject[] spawnPoints;
 
     // Start is called before the first frame update
     void Start()
     {
         spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
-        if(PhotonNetwork.IsMasterClient)
-        StartCoroutine(SpawnZombie());
+        if (PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(SpawnZombie());
+            Invoke("UpgradeZombie", 120f);
+        }
     }
 
     IEnumerator SpawnZombie()
@@ -24,6 +28,7 @@ public class ZombieManager : MonoBehaviourPunCallbacks
         {
             int a = Random.Range(0, spawnPoints.Length);
             GameObject newZombie = PhotonNetwork.InstantiateRoomObject(zombie.name, new Vector3(spawnPoints[a].transform.position.x, spawnPoints[a].transform.position.y, spawnPoints[a].transform.position.z), Quaternion.identity);
+            zombieList.Add(newZombie);
             EnemyMovement enemyMovement = newZombie.GetComponent<EnemyMovement>();
             if (GameObject.Find("RoundCanvas").GetComponent<RoundManager>().runTimer >= 120)
             {
@@ -31,6 +36,15 @@ public class ZombieManager : MonoBehaviourPunCallbacks
             }
             enemyMovement.waypoints = GameObject.Find("Spawner Manager").GetComponent<SpawnerManager>().waypoints;
             yield return new WaitForSeconds(1);
+        }
+    }
+
+    public void UpgradeZombie()
+    {
+        foreach (GameObject zombie in zombieList)
+        {
+            EnemyMovement enemyMovement = zombie.GetComponent<EnemyMovement>();
+            enemyMovement.enemySpeed = 11f;
         }
     }
 

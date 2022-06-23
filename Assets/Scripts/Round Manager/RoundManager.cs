@@ -48,12 +48,32 @@ public class RoundManager : MonoBehaviourPun
     public int maxKills;
     //list of scripts for the game manager to reference
     [SerializeField] RoundUIManager UIManager;
+
     public void Start()
     {
+        if(PhotonNetwork.IsConnected)
+        {
+            Invoke("FindHUDOnline", .5f);
+            Invoke("UpdateHUDOnline", .5f);
+        }
+
         Invoke("FindHUD", 0.5f);
         Invoke("UpdateHUDManager", 0.5f);
         //Invoke("SetupScene", 0.1f);
     }
+
+    [PunRPC]
+    public void FindHUDOnline()
+    {
+        this.photonView.RPC("FindHUD", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void UpdateHUDOnline()
+    {
+        this.photonView.RPC("UpdateHUDManager", RpcTarget.All);
+    }
+
     //SETUP SCENE
     //check that all required scripts and prefabs are in the scene. Set up play area, and reset all variables for a new round
     //run the spawn players function for each player
@@ -69,34 +89,48 @@ public class RoundManager : MonoBehaviourPun
             playerScores[0] = 0;
             playerScores[1] = 0;
             UIManager.UpdateScoreUI();
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                UIManager.photonView.RPC("UpdateScoreUI", RpcTarget.All);
+            }
         }
     }
 
     public void Update()
     {
-        if(!PhotonNetwork.IsConnected || PhotonNetwork.IsMasterClient)
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsMasterClient)
         {
             runTimer += Time.deltaTime;
-
-            if (runTimer >= 120)
-            {
-                GameObject[] zombie = GameObject.FindGameObjectsWithTag("Enemy");
-
-                if (runTimer <= 122)
-                {
-                    for (int i = 0; i < zombie.Length; i++)
-                    {
-                        zombie[i].GetComponent<EnemyMovement>().enemySpeed = 11f;
-                        Debug.Log("Zombie should move quicker");
-                    }
-                }
-            }
+        }
+            
+        if (!PhotonNetwork.IsConnected)
+        {
+            if (runTimer >= 120 && runTimer < 123)
+                ZombieWarningOn();
+            else if (runTimer >= 123 && runTimer < 124)
+                ZombieWarningOff();
         }
 
-        if (runTimer >= 120 && runTimer < 123)
-            canvas.SetActive(true);
-        else if (runTimer >= 123)
-            canvas.SetActive(false);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (runTimer >= 120 && runTimer < 123)
+                this.photonView.RPC("ZombieWarningOn", RpcTarget.All);
+            else if (runTimer >= 123 && runTimer < 124)
+                this.photonView.RPC("ZombieWarningOff", RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    public void ZombieWarningOn()
+    {
+        canvas.SetActive(true);   
+    }
+
+    [PunRPC]
+    public void ZombieWarningOff()
+    {
+        canvas.SetActive(false);
     }
 
     [PunRPC]
@@ -104,44 +138,74 @@ public class RoundManager : MonoBehaviourPun
     {
         if (!GameObject.Find("Player2(Clone)") && GameObject.Find("Player(Clone)").GetComponent<PlayerHealth>().numberOfLivesLeft <= 0 || !GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && !GameObject.Find("Player2(Clone)"))
         {
-            EndRound(1);
+            if (!PhotonNetwork.IsConnected)
+                EndRound(1);
 
-            if(PhotonNetwork.IsConnected)
+            if(PhotonNetwork.IsMasterClient)
+                this.photonView.RPC("EndRound", RpcTarget.All, 1);
+
+            if (PhotonNetwork.IsConnected)
+            {
                 p1Name.text = PhotonNetwork.LocalPlayer.Get(1).NickName;
+                p1Score.text = playerScores[0].ToString();
+            }
         }
         else if (GameObject.Find("Player(Clone)").GetComponent<PlayerHealth>().numberOfLivesLeft <= 0 && GameObject.Find("Player2(Clone)").GetComponent<PlayerHealth>().numberOfLivesLeft <= 0 || !GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && GameObject.Find("Player2(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0)
         {
             if (playerScores[0] == playerScores[1])
             {
-                UIManager.UpdateScoreUI();
-                UIManager.DisplayResultsDraw();
+                if (!PhotonNetwork.IsConnected)
+                {
+                    UIManager.UpdateScoreUI();
+                    UIManager.DisplayResultsDraw();
+                }
+
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    UIManager.photonView.RPC("UpdateScoreUI", RpcTarget.All);
+                    UIManager.photonView.RPC("DisplayResultsDraw", RpcTarget.All);
+                }
 
                 if (PhotonNetwork.IsConnected)
                 {
                     p1Name.text = PhotonNetwork.LocalPlayer.Get(1).NickName;
                     p2Name.text = PhotonNetwork.LocalPlayer.Get(2).NickName;
+                    p1Score.text = playerScores[0].ToString();
+                    p2Score.text = playerScores[1].ToString();
                 }
             }
 
             if (playerScores[0] > playerScores[1])
             {
-                EndRound(1);
+                if (!PhotonNetwork.IsConnected)
+                    EndRound(1);
+
+                if (PhotonNetwork.IsMasterClient)
+                    this.photonView.RPC("EndRound", RpcTarget.All, 1);
 
                 if (PhotonNetwork.IsConnected)
                 {
                     p1Name.text = PhotonNetwork.LocalPlayer.Get(1).NickName;
                     p2Name.text = PhotonNetwork.LocalPlayer.Get(2).NickName;
+                    p1Score.text = playerScores[0].ToString();
+                    p2Score.text = playerScores[1].ToString();
                 }
             }
 
             if (playerScores[0] < playerScores[1])
             {
-                EndRound(2);
+                if (!PhotonNetwork.IsConnected)
+                    EndRound(2);
+
+                if (PhotonNetwork.IsMasterClient)
+                    this.photonView.RPC("EndRound", RpcTarget.All, 2);
 
                 if (PhotonNetwork.IsConnected)
                 {
                     p1Name.text = PhotonNetwork.LocalPlayer.Get(1).NickName;
                     p2Name.text = PhotonNetwork.LocalPlayer.Get(2).NickName;
+                    p1Score.text = playerScores[0].ToString();
+                    p2Score.text = playerScores[1].ToString();
                 }
             }
         }
@@ -185,7 +249,11 @@ public class RoundManager : MonoBehaviourPun
     {
         if (!GameObject.FindGameObjectWithTag("Coin") && GameObject.Find("Player(Clone)").GetComponent<CoinValueHeld>().coinValueHeld == 0 && !GameObject.Find("Player2(Clone)"))
         {
-            EndRound(1);
+            if(!PhotonNetwork.IsConnected)
+                EndRound(1);
+
+            if (PhotonNetwork.IsMasterClient)
+                this.photonView.RPC("EndRound", RpcTarget.All, 1);
 
             if (PhotonNetwork.IsConnected)
                 p1Name.text = PhotonNetwork.LocalPlayer.Get(1).NickName;
@@ -195,35 +263,58 @@ public class RoundManager : MonoBehaviourPun
         {
             if (playerScores[0] == playerScores[1])
             {
-                UIManager.UpdateScoreUI();
-                UIManager.DisplayResultsDraw();
+                if (!PhotonNetwork.IsConnected)
+                {
+                    UIManager.UpdateScoreUI();
+                    UIManager.DisplayResultsDraw();
+                }
+
+                if(PhotonNetwork.IsMasterClient)
+                {
+                    UIManager.photonView.RPC("UpdateScoreUI", RpcTarget.All);
+                    UIManager.photonView.RPC("DisplayResultsDraw", RpcTarget.All);
+                }
 
                 if (PhotonNetwork.IsConnected)
                 {
                     p1Name.text = PhotonNetwork.LocalPlayer.Get(1).NickName;
                     p2Name.text = PhotonNetwork.LocalPlayer.Get(2).NickName;
+                    p1Score.text = playerScores[0].ToString();
+                    p2Score.text = playerScores[1].ToString();
                 }
             }
 
             else if (playerScores[0] > playerScores[1])
             {
-                EndRound(1);
+                if (!PhotonNetwork.IsConnected)
+                    EndRound(1);
+
+                if (PhotonNetwork.IsMasterClient)
+                    this.photonView.RPC("EndRound", RpcTarget.All, 1);
 
                 if (PhotonNetwork.IsConnected)
                 {
                     p1Name.text = PhotonNetwork.LocalPlayer.Get(1).NickName;
                     p2Name.text = PhotonNetwork.LocalPlayer.Get(2).NickName;
+                    p1Score.text = playerScores[0].ToString();
+                    p2Score.text = playerScores[1].ToString();
                 }
             }
 
             else if (playerScores[0] < playerScores[1])
             {
-                EndRound(2);
+                if (!PhotonNetwork.IsConnected)
+                    EndRound(2);
+
+                if (PhotonNetwork.IsMasterClient)
+                    this.photonView.RPC("EndRound", RpcTarget.All, 2);
 
                 if (PhotonNetwork.IsConnected)
                 {
                     p1Name.text = PhotonNetwork.LocalPlayer.Get(1).NickName;
                     p2Name.text = PhotonNetwork.LocalPlayer.Get(2).NickName;
+                    p1Score.text = playerScores[0].ToString();
+                    p2Score.text = playerScores[1].ToString();
                 }
             }
         }
@@ -234,13 +325,24 @@ public class RoundManager : MonoBehaviourPun
     //END ROUND
     // calls an end to the round, triggers any end round events. Most likely this will pass of to another script/object that
     // handles score displays.
+
+    [PunRPC]
     public void EndRound(int WinningPlayer)
     {
         Debug.Log("Game Over! Player " + WinningPlayer + " Has won the game!");
         if (UIManager != null)
         {
-            UIManager.DisplayResults(WinningPlayer);
-            UIManager.UpdateScoreUI();
+            if (!PhotonNetwork.IsConnected)
+            {
+                UIManager.DisplayResults(WinningPlayer);
+                UIManager.UpdateScoreUI();
+            }
+
+            if(PhotonNetwork.IsMasterClient)
+            {
+                UIManager.photonView.RPC("DisplayResults", RpcTarget.All, WinningPlayer);
+                UIManager.photonView.RPC("UpdateScoreUI", RpcTarget.All);
+            }
         }
     }
 
@@ -255,7 +357,7 @@ public class RoundManager : MonoBehaviourPun
             p2Score.gameObject.SetActive(true);
             UpdateHUDManager();
         }
-        else if (GameObject.Find("HUDP1"))
+        else if (GameObject.Find("HUDP1") && !GameObject.Find("HUDP2"))
         {
             hudManagerP1 = GameObject.Find("HUDP1").GetComponent<HUDManager>();
             p2Name.gameObject.SetActive(false);

@@ -34,16 +34,24 @@ MonoBehaviour:
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
+  - CanvasFadeIn
+  - CheckForEnd
   - ClickRpc
   - DestroyRpc
   - DestroySpaceship
-  - Fire
-  - RespawnSpaceship
-  - Start
-  - CheckForEnd
+  - DisplayResults
+  - DisplayResultsDraw
+  - EndRound
   - EndRoundOnDeath
   - FindHUD
+  - Fire
+  - RespawnSpaceship
   - UpdateHUDManager
+  - UpdateScoreUI
+  - ZombieWarningOff
+  - ZombieWarningOn
+  - FindHUDOnline
+  - UpdateHUDOnline
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
