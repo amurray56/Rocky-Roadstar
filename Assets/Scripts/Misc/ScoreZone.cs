@@ -16,14 +16,16 @@ public class ScoreZone : MonoBehaviour
         GetComponent<BoxCollider>().isTrigger = true;
     }
 
-    public void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider player)
     {
-        if(other.CompareTag("Player"))
+        if(player.CompareTag("Player"))
         {
-            GameObject.Find("RoundCanvas").GetComponent<RoundManager>().UpdateScore(other.GetComponent<PlayerInputs>().playerNum, other.GetComponent<CoinValueHeld>().coinValueHeld);
+            //if (PhotonNetwork.IsConnected)
+                //GameObject.Find("RoundCanvas").GetComponent<RoundManager>().photonView.RPC("UpdateScore", RpcTarget.Others, player.GetComponent<PlayerInputs>().playerNum, player.GetComponent<CoinValueHeld>().coinValueHeld);
+            GameObject.Find("RoundCanvas").GetComponent<RoundManager>().UpdateScore(player.GetComponent<PlayerInputs>().playerNum, player.GetComponent<CoinValueHeld>().coinValueHeld);
             //roundManager.UpdateScore(other.GetComponent<PlayerInputs>().playerNum, other.GetComponent<CoinValueHeld>().coinValueHeld);
-            other.GetComponent<CoinValueHeld>().coinValueHeld = 0;
-            other.GetComponentInChildren<HUDManager>().UpdateHUD();
+            player.GetComponent<CoinValueHeld>().coinValueHeld = 0;
+            player.GetComponentInChildren<HUDManager>().UpdateHUD();
             Invoke("EndCheck", .5f);
         }
     }

@@ -47,7 +47,7 @@ public class NewMovementControl : MonoBehaviour
 
         timer += Time.deltaTime;
 
-        if (playerNum == 0 || PhotonNetwork.LocalPlayer.ActorNumber == 2)
+        if (playerNum == 0 || PhotonNetwork.LocalPlayer.ActorNumber >= 1)
         {
             if (Input.GetKey(KeyCode.W))
             {

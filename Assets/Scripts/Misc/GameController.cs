@@ -16,6 +16,8 @@ public class GameController : MonoBehaviour
     public string P1Score;
     public string P2Score;
 
+    public int Player2ID;
+
     //Settings
     public List<GameObject> enemies = new List<GameObject>();//List of enemies
 

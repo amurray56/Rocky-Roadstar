@@ -15,7 +15,7 @@ public class RoundUIManager : MonoBehaviourPun
     {
         for (int i = 0; i < playerScoreUis.Length; i++)
         {
-            playerScoreUis[i].text = RoundManager.instance.playerScores[i].ToString();
+            playerScoreUis[i].text = gameObject.GetComponent<RoundManager>().playerScores[i].ToString();
 
             //Orignal line
             //playerScoreUis[i].text = "Player " + (i + 1).ToString() + " : " + RoundManager.instance.playerScores[i].ToString();

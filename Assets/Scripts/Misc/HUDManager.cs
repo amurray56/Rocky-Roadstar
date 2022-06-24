@@ -103,7 +103,7 @@ public class HUDManager : MonoBehaviour
     public void LeaveRoom()
     {
         if (PhotonNetwork.IsConnected)
-            PhotonNetwork.LeaveRoom();
+            PhotonNetwork.Disconnect();
 
         SceneManager.LoadScene(0);
     }

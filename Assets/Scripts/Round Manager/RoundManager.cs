@@ -169,7 +169,7 @@ public class RoundManager : MonoBehaviourPun
                 if (PhotonNetwork.IsConnected)
                 {
                     p1Name.text = PhotonNetwork.LocalPlayer.Get(1).NickName;
-                    p2Name.text = PhotonNetwork.LocalPlayer.Get(2).NickName;
+                    p2Name.text = PhotonNetwork.LocalPlayer.Get(GameObject.Find("Game Controller").GetComponent<GameController>().Player2ID).NickName;
                     p1Score.text = playerScores[0].ToString();
                     p2Score.text = playerScores[1].ToString();
                 }
@@ -186,7 +186,7 @@ public class RoundManager : MonoBehaviourPun
                 if (PhotonNetwork.IsConnected)
                 {
                     p1Name.text = PhotonNetwork.LocalPlayer.Get(1).NickName;
-                    p2Name.text = PhotonNetwork.LocalPlayer.Get(2).NickName;
+                    p2Name.text = PhotonNetwork.LocalPlayer.Get(GameObject.Find("Game Controller").GetComponent<GameController>().Player2ID).NickName;
                     p1Score.text = playerScores[0].ToString();
                     p2Score.text = playerScores[1].ToString();
                 }
@@ -203,7 +203,7 @@ public class RoundManager : MonoBehaviourPun
                 if (PhotonNetwork.IsConnected)
                 {
                     p1Name.text = PhotonNetwork.LocalPlayer.Get(1).NickName;
-                    p2Name.text = PhotonNetwork.LocalPlayer.Get(2).NickName;
+                    p2Name.text = PhotonNetwork.LocalPlayer.Get(GameObject.Find("Game Controller").GetComponent<GameController>().Player2ID).NickName;
                     p1Score.text = playerScores[0].ToString();
                     p2Score.text = playerScores[1].ToString();
                 }
@@ -230,6 +230,7 @@ public class RoundManager : MonoBehaviourPun
     //UPDATE SCORE
     // increments or decrements the score of a player, then checks all player scores to see if someone has won.
     // triggers the end round and passes information on. also calls out to the UI manager if it exists to update.
+    [PunRPC]
     public void UpdateScore(int playerNum, int score)
     {
         playerScores[playerNum] += score;
@@ -278,7 +279,7 @@ public class RoundManager : MonoBehaviourPun
                 if (PhotonNetwork.IsConnected)
                 {
                     p1Name.text = PhotonNetwork.LocalPlayer.Get(1).NickName;
-                    p2Name.text = PhotonNetwork.LocalPlayer.Get(2).NickName;
+                    p2Name.text = PhotonNetwork.LocalPlayer.Get(GameObject.Find("Game Controller").GetComponent<GameController>().Player2ID).NickName;
                     p1Score.text = playerScores[0].ToString();
                     p2Score.text = playerScores[1].ToString();
                 }
@@ -295,7 +296,7 @@ public class RoundManager : MonoBehaviourPun
                 if (PhotonNetwork.IsConnected)
                 {
                     p1Name.text = PhotonNetwork.LocalPlayer.Get(1).NickName;
-                    p2Name.text = PhotonNetwork.LocalPlayer.Get(2).NickName;
+                    p2Name.text = PhotonNetwork.LocalPlayer.Get(GameObject.Find("Game Controller").GetComponent<GameController>().Player2ID).NickName;
                     p1Score.text = playerScores[0].ToString();
                     p2Score.text = playerScores[1].ToString();
                 }
@@ -312,7 +313,7 @@ public class RoundManager : MonoBehaviourPun
                 if (PhotonNetwork.IsConnected)
                 {
                     p1Name.text = PhotonNetwork.LocalPlayer.Get(1).NickName;
-                    p2Name.text = PhotonNetwork.LocalPlayer.Get(2).NickName;
+                    p2Name.text = PhotonNetwork.LocalPlayer.Get(GameObject.Find("Game Controller").GetComponent<GameController>().Player2ID).NickName;
                     p1Score.text = playerScores[0].ToString();
                     p2Score.text = playerScores[1].ToString();
                 }

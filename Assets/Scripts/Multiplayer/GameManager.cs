@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
             CreatePlayerOne();
 
-        else if (PhotonNetwork.LocalPlayer.ActorNumber == 2)
+        else if (PhotonNetwork.LocalPlayer.ActorNumber != 1)
             CreatePlayerTwo();
     }
 
